@@ -1,11 +1,13 @@
 hearing-things
 ==============
 
-scraping U.S. Senate (for now) hearing videos and associated metadata
+Scraping and Analysis tools for U.S. Senate (and eventually House) hearing videos and associated metadata
 
 hearing-things is built primarily using SlimerJS, a (mostly) headless Gecko-based browser similar to PhantomJS.  
 
-At present, this only (and partially so) works on the Senate Intelligence Committee.  
+At present, this only (and partially so) works on the Senate Intelligence Committee.  Data format is still in flux.
+
+## (FAQ) Frequently Anticipated Questions
 
 Why SlimerJS?  Why not curl or (insert scraping library here)?
 
