@@ -1,7 +1,7 @@
 hearing-things
 ==============
 
-Scraping and Analysis tools for U.S. Senate (and eventually House) hearing videos and associated metadata
+Scraping and Analysis tools for U.S. Senate (and eventually House) Committee hearing videos and associated metadata
 
 hearing-things is built primarily using SlimerJS, a (mostly) headless Gecko-based browser similar to PhantomJS.  
 
