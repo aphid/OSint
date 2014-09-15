@@ -5,7 +5,7 @@ Scraping and Analysis tools for U.S. Senate (and eventually House) hearing video
 
 hearing-things is built primarily using SlimerJS, a (mostly) headless Gecko-based browser similar to PhantomJS.  
 
-At present, this only (and partially so) works on the Senate Intelligence Committee.  Data format is still in flux.
+At present, this only (and partially so) works on the Senate Intelligence Committee.  Data format is still in flux.  Current video scraping methodologies work for AdobeHDS and RealMedia, covering all Senate hearings encountered thusfar back to the 110th Congress.
 
 #### (FAQ) Frequently Anticipated Questions
 
