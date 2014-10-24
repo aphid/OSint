@@ -1,0 +1,566 @@
+{
+  "chamber": "senate",
+  "committee": "Intelligence",
+  "baseUrl": "http://www.intelligence.senate.gov",
+  "meta": [],
+  "sessions": [
+    110,
+    111,
+    112,
+    113
+  ],
+  "hearings": [
+    {
+      "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingId=e655f9e2809e5476862f735da141756a",
+      "date": "2008-09-25T21:30:00.000Z",
+      "dateReadable": "September 25th 2008, 2:30 pm",
+      "shortdate": "080925",
+      "room": "Dirksen-SDG50",
+      "session": 110,
+      "description": "Open Hearing: Nomination of Pat Rowan to be Assistant Attorney General for National Security",
+      "witnesses": [
+        {
+          "name": "Chairman John D. Rockefeller IV",
+          "title": "Opening Statement",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da141756a&witnessId=e655f9e2809e5476862f735da141756a-0-1",
+          "witnessId": "e655f9e2809e5476862f735da141756a-0-1"
+        },
+        {
+          "name": "Senator Christopher S. Bond",
+          "title": "Vice Chairman",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da141756a&witnessId=e655f9e2809e5476862f735da141756a-0-2",
+          "witnessId": "e655f9e2809e5476862f735da141756a-0-2"
+        },
+        {
+          "name": "J. Patrick Rowan",
+          "title": "",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da141756a&witnessId=e655f9e2809e5476862f735da141756a-0-3",
+          "witnessId": "e655f9e2809e5476862f735da141756a-0-3"
+        }
+      ],
+      "links": [],
+      "pdfs": [],
+      "videos": [],
+      "path": "/var/www/html/hearings/110/080925"
+    },
+    {
+      "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingId=e655f9e2809e5476862f735da141254a",
+      "date": "2008-09-23T21:30:00.000Z",
+      "dateReadable": "September 23rd 2008, 2:30 pm",
+      "shortdate": "080923",
+      "room": "Hart-216",
+      "session": 110,
+      "description": "Open Hearing: New Attorney General Guidelines for Domestic Intelligence Collection",
+      "witnesses": [
+        {
+          "name": "Valerie Caproni",
+          "title": "General Counsel Federal Bureau of Investigation",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da141254a&witnessId=e655f9e2809e5476862f735da141254a-0-5",
+          "witnessId": "e655f9e2809e5476862f735da141254a-0-5"
+        },
+        {
+          "name": "Elisebeth Collins Cook",
+          "title": "Assistant Attorney General",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da141254a&witnessId=e655f9e2809e5476862f735da141254a-0-4",
+          "witnessId": "e655f9e2809e5476862f735da141254a-0-4"
+        },
+        {
+          "name": "Chairman John D. Rockefeller IV",
+          "title": "Opening Statement",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da141254a&witnessId=e655f9e2809e5476862f735da141254a-0-2",
+          "witnessId": "e655f9e2809e5476862f735da141254a-0-2"
+        },
+        {
+          "name": "Senator Christopher S. Bond",
+          "title": "Vice Chairman",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da141254a&witnessId=e655f9e2809e5476862f735da141254a-0-3",
+          "witnessId": "e655f9e2809e5476862f735da141254a-0-3"
+        }
+      ],
+      "links": [
+        {
+          "url": "http://www.intelligence.senate.gov/Video",
+          "description": ""
+        },
+        {
+          "url": "http://www.intelligence.senate.gov/</a",
+          "description": ""
+        },
+        {
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da141254a&witnessId=e655f9e2809e5476862f735da141254a-0-5",
+          "description": ""
+        },
+        {
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da141254a&witnessId=e655f9e2809e5476862f735da141254a-0-7",
+          "description": "Additional Information"
+        },
+        {
+          "url": "undefined/Video",
+          "description": ""
+        },
+        {
+          "url": "undefined/</a",
+          "description": ""
+        },
+        {
+          "url": "undefined//hearings.cfm?hearingid=e655f9e2809e5476862f735da141254a&witnessId=e655f9e2809e5476862f735da141254a-0-5",
+          "description": ""
+        },
+        {
+          "url": "undefined//hearings.cfm?hearingid=e655f9e2809e5476862f735da141254a&witnessId=e655f9e2809e5476862f735da141254a-0-7",
+          "description": "Additional Information"
+        }
+      ],
+      "pdfs": [
+        {
+          "url": "http://intelligence.senate.gov/080923/martin.pdf",
+          "description": "Statement by Kate Martin, Director, Center for National Security Studies"
+        },
+        {
+          "url": "http://intelligence.senate.gov/080923/agguidelines.pdf",
+          "description": "Attorney General Guidelines"
+        },
+        {
+          "url": "http://intelligence.senate.gov/080923/fbigc.pdf",
+          "description": "Federal Bureau of Investigations (FBI) General Counsel Letter"
+        }
+      ],
+      "videos": [
+        {
+          "url": "http://intelligence.senate.gov/080923/archive.ram",
+          "type": "RealMedia",
+          "description": "Archived Video",
+          "metadata": {}
+        }
+      ],
+      "path": "/var/www/html/hearings/110/080923"
+    },
+    {
+      "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingId=e655f9e2809e5476862f735da13a0d33",
+      "date": "2008-05-06T21:30:00.000Z",
+      "dateReadable": "May 6th 2008, 2:30 pm",
+      "shortdate": "080506",
+      "room": "Hart-216",
+      "session": 110,
+      "description": "Open Hearing: Nomination of Michael Leiter",
+      "witnesses": [],
+      "links": [],
+      "pdfs": [],
+      "videos": [],
+      "path": "/var/www/html/hearings/110/080506"
+    },
+    {
+      "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingId=e655f9e2809e5476862f735da133e87b",
+      "date": "2008-02-14T22:30:00.000Z",
+      "dateReadable": "February 14th 2008, 2:30 pm",
+      "shortdate": "080214",
+      "room": "Hart-216",
+      "session": 110,
+      "description": "Open Hearing:  DNI Authorities and Personnel Issues",
+      "witnesses": [
+        {
+          "name": "John M. McConnell",
+          "title": "Director of National Intelligence",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da133e87b&witnessId=e655f9e2809e5476862f735da133e87b-0-1",
+          "witnessId": "e655f9e2809e5476862f735da133e87b-0-1"
+        }
+      ],
+      "links": [
+        {
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da133e87b&witnessId=e655f9e2809e5476862f735da133e87b-0-8",
+          "description": "Live Video"
+        },
+        {
+          "url": "http://www.intelligence.senate.gov/</a",
+          "description": ""
+        },
+        {
+          "url": "undefined//hearings.cfm?hearingid=e655f9e2809e5476862f735da133e87b&witnessId=e655f9e2809e5476862f735da133e87b-0-8",
+          "description": "Live Video"
+        },
+        {
+          "url": "undefined/</a",
+          "description": ""
+        }
+      ],
+      "pdfs": [],
+      "videos": [],
+      "path": "/var/www/html/hearings/110/080214"
+    },
+    {
+      "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingId=e655f9e2809e5476862f735da132cfcf",
+      "date": "2008-02-05T18:00:00.000Z",
+      "dateReadable": "February 5th 2008, 10:00 am",
+      "shortdate": "080205",
+      "room": "Hart-216",
+      "session": 110,
+      "description": "Open Hearing:  Current and Projected National Security Threats",
+      "witnesses": [
+        {
+          "name": "John M. McConnell",
+          "title": "Director of National Intelligence",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da132cfcf&witnessId=e655f9e2809e5476862f735da132cfcf-0-1",
+          "witnessId": "e655f9e2809e5476862f735da132cfcf-0-1"
+        },
+        {
+          "name": "Honorable Randall M. Fort",
+          "title": "Assistant Secretary of State for Intelligence and Research (INR) Department of State",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da132cfcf&witnessId=e655f9e2809e5476862f735da132cfcf-0-3",
+          "witnessId": "e655f9e2809e5476862f735da132cfcf-0-3"
+        },
+        {
+          "name": "Honorable Robert S. Mueller, III",
+          "title": "Director Federal Bureau of Investigations (FBI)",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da132cfcf&witnessId=e655f9e2809e5476862f735da132cfcf-0-4",
+          "witnessId": "e655f9e2809e5476862f735da132cfcf-0-4"
+        },
+        {
+          "name": "Lieutenant General Michael D. Maples",
+          "title": "Director Defense Intelligence Agency (DIA)",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da132cfcf&witnessId=e655f9e2809e5476862f735da132cfcf-0-5",
+          "witnessId": "e655f9e2809e5476862f735da132cfcf-0-5"
+        },
+        {
+          "name": "General Michael V. Hayden",
+          "title": "Director Central Intelligence Agency (CIA)",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da132cfcf&witnessId=e655f9e2809e5476862f735da132cfcf-0-6",
+          "witnessId": "e655f9e2809e5476862f735da132cfcf-0-6"
+        }
+      ],
+      "links": [],
+      "pdfs": [],
+      "videos": [],
+      "path": "/var/www/html/hearings/110/080205"
+    },
+    {
+      "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingId=e655f9e2809e5476862f735da130cc20",
+      "date": "2007-11-13T22:30:00.000Z",
+      "dateReadable": "November 13th 2007, 2:30 pm",
+      "shortdate": "071113",
+      "room": "Hart-216",
+      "session": 110,
+      "description": "Open Hearing: Congressional Oversight",
+      "witnesses": [
+        {
+          "name": "Senator John D. Rockefeller",
+          "title": "",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da130cc20&witnessId=e655f9e2809e5476862f735da130cc20-0-1",
+          "witnessId": "e655f9e2809e5476862f735da130cc20-0-1"
+        },
+        {
+          "name": "Senator Christopher S. Bond",
+          "title": "",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da130cc20&witnessId=e655f9e2809e5476862f735da130cc20-0-2",
+          "witnessId": "e655f9e2809e5476862f735da130cc20-0-2"
+        },
+        {
+          "name": "Honorable Lee H. Hamilton",
+          "title": "Former Vice Chair of the 9/11 Commission",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da130cc20&witnessId=e655f9e2809e5476862f735da130cc20-1-1",
+          "witnessId": "e655f9e2809e5476862f735da130cc20-1-1"
+        },
+        {
+          "name": "Honorable Timothy Roemer",
+          "title": "Former Member of the 9/11 Commission",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da130cc20&witnessId=e655f9e2809e5476862f735da130cc20-1-2",
+          "witnessId": "e655f9e2809e5476862f735da130cc20-1-2"
+        },
+        {
+          "name": "Ms. Amy Zegart",
+          "title": "Professor University of California, Los Angeles (UCLA)",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da130cc20&witnessId=e655f9e2809e5476862f735da130cc20-2-1",
+          "witnessId": "e655f9e2809e5476862f735da130cc20-2-1"
+        },
+        {
+          "name": "Mr. James Saturno",
+          "title": "Congressional Research Service (CRS)",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da130cc20&witnessId=e655f9e2809e5476862f735da130cc20-2-2",
+          "witnessId": "e655f9e2809e5476862f735da130cc20-2-2"
+        }
+      ],
+      "links": [
+        {
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da130cc20&witnessId=e655f9e2809e5476862f735da130cc20-2-3",
+          "description": "Statement of Families of September 11"
+        },
+        {
+          "url": "undefined//hearings.cfm?hearingid=e655f9e2809e5476862f735da130cc20&witnessId=e655f9e2809e5476862f735da130cc20-2-3",
+          "description": "Statement of Families of September 11"
+        }
+      ],
+      "pdfs": [],
+      "videos": [],
+      "path": "/var/www/html/hearings/110/071113"
+    },
+    {
+      "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingId=e655f9e2809e5476862f735da12fcc1f",
+      "date": "2007-10-23T21:30:00.000Z",
+      "dateReadable": "October 23rd 2007, 2:30 pm",
+      "shortdate": "071023",
+      "room": "Dirksen-106",
+      "session": 110,
+      "description": "Open Hearing: FBI Strategic Plan",
+      "witnesses": [
+        {
+          "name": "Willie Hulon and Phil Mudd",
+          "title": "National Security Branch Directors Federal Bureau of Investigations",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da12fcc1f&witnessId=e655f9e2809e5476862f735da12fcc1f-2-1",
+          "witnessId": "e655f9e2809e5476862f735da12fcc1f-2-1"
+        }
+      ],
+      "links": [],
+      "pdfs": [],
+      "videos": [],
+      "path": "/var/www/html/hearings/110/071023"
+    },
+    {
+      "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingId=e655f9e2809e5476862f735da12ca07e",
+      "date": "2007-08-01T21:30:00.000Z",
+      "dateReadable": "August 1st 2007, 2:30 pm",
+      "shortdate": "070801",
+      "room": "Hart-216",
+      "session": 110,
+      "description": "Open Hearing: Nomination of Donald M. Kerr to be Principal Deputy Director of National Intelligence",
+      "witnesses": [
+        {
+          "name": "Donald M. Kerr",
+          "title": "",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da12ca07e&witnessId=e655f9e2809e5476862f735da12ca07e-0-0",
+          "witnessId": "e655f9e2809e5476862f735da12ca07e-0-0"
+        }
+      ],
+      "links": [],
+      "pdfs": [],
+      "videos": [],
+      "path": "/var/www/html/hearings/110/070801"
+    },
+    {
+      "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingId=e655f9e2809e5476862f735da129f7db",
+      "date": "2007-06-19T21:30:00.000Z",
+      "dateReadable": "June 19th 2007, 2:30 pm",
+      "shortdate": "070619",
+      "room": "SD-106",
+      "session": 110,
+      "description": "Open Hearing:  Nomination of John Rizzo to be CIA General Counsel",
+      "witnesses": [
+        {
+          "name": "John A. Rizzo",
+          "title": "",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da129f7db&witnessId=e655f9e2809e5476862f735da129f7db-0-0",
+          "witnessId": "e655f9e2809e5476862f735da129f7db-0-0"
+        }
+      ],
+      "links": [],
+      "pdfs": [],
+      "videos": [],
+      "path": "/var/www/html/hearings/110/070619"
+    },
+    {
+      "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingId=e655f9e2809e5476862f735da129a3c1",
+      "date": "2007-06-12T21:30:00.000Z",
+      "dateReadable": "June 12th 2007, 2:30 pm",
+      "shortdate": "070612",
+      "room": "Hart-216",
+      "session": 110,
+      "description": "Open Hearing:  Terrorist Ideology",
+      "witnesses": [
+        {
+          "name": "Stephen Ulph",
+          "title": "Senior Fellow Jamestown Foundation",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da129a3c1&witnessId=e655f9e2809e5476862f735da129a3c1-0-1",
+          "witnessId": "e655f9e2809e5476862f735da129a3c1-0-1"
+        },
+        {
+          "name": "Rebekah (Kim) Cragin",
+          "title": "International Policy Analyst RAND Corporation",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da129a3c1&witnessId=e655f9e2809e5476862f735da129a3c1-0-2",
+          "witnessId": "e655f9e2809e5476862f735da129a3c1-0-2"
+        },
+        {
+          "name": "Daniel Kimmage",
+          "title": "Regional Analyst Radio Free Europe / Radio Liberty",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da129a3c1&witnessId=e655f9e2809e5476862f735da129a3c1-0-3",
+          "witnessId": "e655f9e2809e5476862f735da129a3c1-0-3"
+        }
+      ],
+      "links": [],
+      "pdfs": [],
+      "videos": [],
+      "path": "/var/www/html/hearings/110/070612"
+    },
+    {
+      "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingId=e655f9e2809e5476862f735da11f6b80",
+      "date": "2007-02-01T22:30:00.000Z",
+      "dateReadable": "February 1st 2007, 2:30 pm",
+      "shortdate": "070201",
+      "room": "Dirksen-106",
+      "session": 110,
+      "description": "Open Hearing:  Confirmation Hearing on Nomination of J. Michael McConnell to be Director of National Intelligence",
+      "witnesses": [
+        {
+          "name": "John M. McConnell",
+          "title": "Director of National Intelligence",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da11f6b80&witnessId=e655f9e2809e5476862f735da11f6b80-0-1",
+          "witnessId": "e655f9e2809e5476862f735da11f6b80-0-1"
+        },
+        {
+          "name": "Senator John D. Rockefeller IV",
+          "title": "Chairman U.S. Senate Select Committee on Intelligence",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da11f6b80&witnessId=e655f9e2809e5476862f735da11f6b80-0-2",
+          "witnessId": "e655f9e2809e5476862f735da11f6b80-0-2"
+        }
+      ],
+      "links": [],
+      "pdfs": [],
+      "videos": [],
+      "path": "/var/www/html/hearings/110/070201"
+    },
+    {
+      "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingId=e655f9e2809e5476862f735da11ebe54",
+      "date": "2007-01-25T22:30:00.000Z",
+      "dateReadable": "January 25th 2007, 2:30 pm",
+      "shortdate": "070125",
+      "room": "Hart-216",
+      "session": 110,
+      "description": "Open Hearing:  Intelligence Reform -- FBI and Homeland Security",
+      "witnesses": [
+        {
+          "name": "John S. Pistole",
+          "title": "Deputy Director Federal Bureau of Investigations, U.S. Department of Justice",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da11ebe54&witnessId=e655f9e2809e5476862f735da11ebe54-1-1",
+          "witnessId": "e655f9e2809e5476862f735da11ebe54-1-1"
+        },
+        {
+          "name": "Charles E. Allen",
+          "title": "Assistant Secretary for Intelligence and Analysis Chief Intelligence Officer, Department of Homeland Security",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da11ebe54&witnessId=e655f9e2809e5476862f735da11ebe54-1-2",
+          "witnessId": "e655f9e2809e5476862f735da11ebe54-1-2"
+        },
+        {
+          "name": "James W. Spears",
+          "title": "West Virginia Homeland Security Advisor and Cabinet Secretary West Virginia Department of Military Affairs and Public Safety",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da11ebe54&witnessId=e655f9e2809e5476862f735da11ebe54-2-1",
+          "witnessId": "e655f9e2809e5476862f735da11ebe54-2-1"
+        },
+        {
+          "name": "Cathy Lanier",
+          "title": "Acting Chief of Police Metropolitan Police Department, District of Columbia",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da11ebe54&witnessId=e655f9e2809e5476862f735da11ebe54-2-2",
+          "witnessId": "e655f9e2809e5476862f735da11ebe54-2-2"
+        },
+        {
+          "name": "John C. Gannon",
+          "title": "Former Staff Director House Homeland Security Committee and Former Chairman of the National Intelligence Council",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da11ebe54&witnessId=e655f9e2809e5476862f735da11ebe54-2-3",
+          "witnessId": "e655f9e2809e5476862f735da11ebe54-2-3"
+        }
+      ],
+      "links": [],
+      "pdfs": [],
+      "videos": [],
+      "path": "/var/www/html/hearings/110/070125"
+    },
+    {
+      "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingId=e655f9e2809e5476862f735da11ea9c3",
+      "date": "2007-01-23T22:30:00.000Z",
+      "dateReadable": "January 23rd 2007, 2:30 pm",
+      "shortdate": "070123",
+      "room": "Hart-216",
+      "session": 110,
+      "description": "Open Hearing:  Intelligence Reform",
+      "witnesses": [
+        {
+          "name": "Mary Margaret Graham",
+          "title": "",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da11ea9c3&witnessId=e655f9e2809e5476862f735da11ea9c3-0-1",
+          "witnessId": "e655f9e2809e5476862f735da11ea9c3-0-1"
+        },
+        {
+          "name": "Thomas Fingar",
+          "title": "Deputy Director of National Intelligence for Analysis Office of the Director of National Intelligence",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da11ea9c3&witnessId=e655f9e2809e5476862f735da11ea9c3-0-2",
+          "witnessId": "e655f9e2809e5476862f735da11ea9c3-0-2"
+        },
+        {
+          "name": "Patrick Kennedy",
+          "title": "",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da11ea9c3&witnessId=e655f9e2809e5476862f735da11ea9c3-0-3",
+          "witnessId": "e655f9e2809e5476862f735da11ea9c3-0-3"
+        },
+        {
+          "name": "Dale Meyerrose",
+          "title": "",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da11ea9c3&witnessId=e655f9e2809e5476862f735da11ea9c3-0-4",
+          "witnessId": "e655f9e2809e5476862f735da11ea9c3-0-4"
+        },
+        {
+          "name": "Mark Ewing",
+          "title": "",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da11ea9c3&witnessId=e655f9e2809e5476862f735da11ea9c3-0-5",
+          "witnessId": "e655f9e2809e5476862f735da11ea9c3-0-5"
+        },
+        {
+          "name": "Susan Reingold",
+          "title": "",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da11ea9c3&witnessId=e655f9e2809e5476862f735da11ea9c3-0-6",
+          "witnessId": "e655f9e2809e5476862f735da11ea9c3-0-6"
+        }
+      ],
+      "links": [],
+      "pdfs": [],
+      "videos": [],
+      "path": "/var/www/html/hearings/110/070123"
+    },
+    {
+      "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingId=e655f9e2809e5476862f735da11e31ab",
+      "date": "2007-01-11T22:30:00.000Z",
+      "dateReadable": "January 11th 2007, 2:30 pm",
+      "shortdate": "070111",
+      "room": "Hart-216",
+      "session": 110,
+      "description": "Open Hearing:  Current and Projected National Security Threats",
+      "witnesses": [
+        {
+          "name": "Honorable John D. Negroponte",
+          "title": "Director of National Intelligence (DNI)",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da11e31ab&witnessId=e655f9e2809e5476862f735da11e31ab-0-1",
+          "witnessId": "e655f9e2809e5476862f735da11e31ab-0-1"
+        },
+        {
+          "name": "Senator John D. Rockefeller IV",
+          "title": "Chairman U.S. Senate Select Committee on Intelligence",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da11e31ab&witnessId=e655f9e2809e5476862f735da11e31ab-0-2",
+          "witnessId": "e655f9e2809e5476862f735da11e31ab-0-2"
+        },
+        {
+          "name": "General Michael V. Hayden",
+          "title": "Director Central Intelligence Agency (CIA)",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da11e31ab&witnessId=e655f9e2809e5476862f735da11e31ab-0-3",
+          "witnessId": "e655f9e2809e5476862f735da11e31ab-0-3"
+        },
+        {
+          "name": "Honorable Randall M. Fort",
+          "title": "Assistant Secretary of State for Intelligence and Research (INR) Department of State",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da11e31ab&witnessId=e655f9e2809e5476862f735da11e31ab-0-4",
+          "witnessId": "e655f9e2809e5476862f735da11e31ab-0-4"
+        },
+        {
+          "name": "Honorable Robert S. Mueller, III",
+          "title": "Director Federal Bureau of Investigations (FBI)",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da11e31ab&witnessId=e655f9e2809e5476862f735da11e31ab-0-5",
+          "witnessId": "e655f9e2809e5476862f735da11e31ab-0-5"
+        },
+        {
+          "name": "Lieutenant General Michael D. Maples",
+          "title": "Director Defense Intelligence Agency (DIA)",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=e655f9e2809e5476862f735da11e31ab&witnessId=e655f9e2809e5476862f735da11e31ab-0-6",
+          "witnessId": "e655f9e2809e5476862f735da11e31ab-0-6"
+        }
+      ],
+      "links": [],
+      "pdfs": [],
+      "videos": [],
+      "path": "/var/www/html/hearings/110/070111"
+    }
+  ]
+}

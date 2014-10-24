@@ -1,0 +1,235 @@
+{
+  "chamber": "senate",
+  "committee": "Intelligence",
+  "baseUrl": "http://www.intelligence.senate.gov",
+  "meta": [],
+  "sessions": [
+    110,
+    111,
+    112,
+    113
+  ],
+  "hearings": [
+    {
+      "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingId=0cb5dc5497c5ffb2985cb30c4755265f",
+      "date": "2014-06-05T21:30:00.000Z",
+      "dateReadable": "June 5th 2014, 2:30 pm",
+      "shortdate": "140605",
+      "room": "Hart 216",
+      "session": 113,
+      "description": "Open Hearing: USA FREEDOM Act (H.R. 3361)",
+      "witnesses": [
+        {
+          "name": "James M. Cole",
+          "title": "Deputy Attorney General U.S. Department of Justice",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=0cb5dc5497c5ffb2985cb30c4755265f&witnessId=0cb5dc5497c5ffb2985cb30c4755265f-0-3",
+          "panel": "First Panel (Government):",
+          "witnessId": "0cb5dc5497c5ffb2985cb30c4755265f-0-3"
+        },
+        {
+          "name": "Richard H. Ledgett",
+          "title": "Deputy Director National Security Agency",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=0cb5dc5497c5ffb2985cb30c4755265f&witnessId=0cb5dc5497c5ffb2985cb30c4755265f-0-4",
+          "panel": "First Panel (Government):",
+          "witnessId": "0cb5dc5497c5ffb2985cb30c4755265f-0-4"
+        },
+        {
+          "name": "Mark F. Giuliano",
+          "title": "Deputy Director Federal Bureau of Investigation",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=0cb5dc5497c5ffb2985cb30c4755265f&witnessId=0cb5dc5497c5ffb2985cb30c4755265f-0-5",
+          "panel": "First Panel (Government):",
+          "witnessId": "0cb5dc5497c5ffb2985cb30c4755265f-0-5"
+        },
+        {
+          "name": "Robert S. Litt / Stephanie O'Sullivan",
+          "title": "General Counsel / Deputy Director Office of the Director of National Intelligence",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=0cb5dc5497c5ffb2985cb30c4755265f&witnessId=0cb5dc5497c5ffb2985cb30c4755265f-0-6",
+          "panel": "First Panel (Government):",
+          "witnessId": "0cb5dc5497c5ffb2985cb30c4755265f-0-6"
+        },
+        {
+          "name": "Harley Geiger",
+          "title": "Senior Counsel Center for Democracy & Technology",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=0cb5dc5497c5ffb2985cb30c4755265f&witnessId=0cb5dc5497c5ffb2985cb30c4755265f-0-8",
+          "panel": "Second Panel (Non-Government):",
+          "witnessId": "0cb5dc5497c5ffb2985cb30c4755265f-0-8"
+        },
+        {
+          "name": "Dean Garfield",
+          "title": "President/CEO Information Technology Industry Council",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=0cb5dc5497c5ffb2985cb30c4755265f&witnessId=0cb5dc5497c5ffb2985cb30c4755265f-0-9",
+          "panel": "Second Panel (Non-Government):",
+          "witnessId": "0cb5dc5497c5ffb2985cb30c4755265f-0-9"
+        },
+        {
+          "name": "Michael Woods",
+          "title": "Vice President and Assistant General Counsel Verizon",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=0cb5dc5497c5ffb2985cb30c4755265f&witnessId=0cb5dc5497c5ffb2985cb30c4755265f-0-10",
+          "panel": "Second Panel (Non-Government):",
+          "witnessId": "0cb5dc5497c5ffb2985cb30c4755265f-0-10"
+        },
+        {
+          "name": "Stewart Baker",
+          "title": "Partner Steptoe & Johnson LLP",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=0cb5dc5497c5ffb2985cb30c4755265f&witnessId=0cb5dc5497c5ffb2985cb30c4755265f-0-11",
+          "panel": "Second Panel (Non-Government):",
+          "witnessId": "0cb5dc5497c5ffb2985cb30c4755265f-0-11"
+        }
+      ],
+      "links": [
+        {
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=0cb5dc5497c5ffb2985cb30c4755265f&witnessId=0cb5dc5497c5ffb2985cb30c4755265f-0-1",
+          "description": "Archived Video"
+        },
+        {
+          "url": "undefined//hearings.cfm?hearingid=0cb5dc5497c5ffb2985cb30c4755265f&witnessId=0cb5dc5497c5ffb2985cb30c4755265f-0-1",
+          "description": "Archived Video"
+        }
+      ],
+      "pdfs": [],
+      "videos": [],
+      "path": "/var/www/html/hearings/113/140605"
+    },
+    {
+      "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingId=f00b2bec76ceca7ac77335d8aa10cf0a",
+      "date": "2014-02-25T22:30:00.000Z",
+      "dateReadable": "February 25th 2014, 2:30 pm",
+      "shortdate": "140225",
+      "room": "Dirksen 562",
+      "session": 113,
+      "description": "Open Hearing: Nomination of John P. Carlin to be Assistant Attorney General for National Security at the Department of Justice, and Nomination of Francis X. Taylor to be the Under Secretary for Intelligence and Analysis at the Department of Homeland Security",
+      "witnesses": [],
+      "links": [
+        {
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=f00b2bec76ceca7ac77335d8aa10cf0a&witnessId=f00b2bec76ceca7ac77335d8aa10cf0a-0-1",
+          "description": "John P. Carlin (Opening Statement and Archived Video)"
+        },
+        {
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=f00b2bec76ceca7ac77335d8aa10cf0a&witnessId=f00b2bec76ceca7ac77335d8aa10cf0a-0-2",
+          "description": "Francis X. Taylor (Opening Statement and Archived Video)"
+        },
+        {
+          "url": "undefined//hearings.cfm?hearingid=f00b2bec76ceca7ac77335d8aa10cf0a&witnessId=f00b2bec76ceca7ac77335d8aa10cf0a-0-1",
+          "description": "John P. Carlin (Opening Statement and Archived Video)"
+        },
+        {
+          "url": "undefined//hearings.cfm?hearingid=f00b2bec76ceca7ac77335d8aa10cf0a&witnessId=f00b2bec76ceca7ac77335d8aa10cf0a-0-2",
+          "description": "Francis X. Taylor (Opening Statement and Archived Video)"
+        }
+      ],
+      "pdfs": [],
+      "videos": [],
+      "path": "/var/www/html/hearings/113/140225"
+    },
+    {
+      "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingId=138603a26950ad873303535a630ec9c9",
+      "date": "2014-01-29T18:00:00.000Z",
+      "dateReadable": "January 29th 2014, 10:00 am",
+      "shortdate": "140129",
+      "room": "Hart 216",
+      "session": 113,
+      "description": "Open Hearing: Current and Projected National Security Threats Against the United States",
+      "witnesses": [],
+      "links": [
+        {
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=138603a26950ad873303535a630ec9c9&witnessId=138603a26950ad873303535a630ec9c9-0-1",
+          "description": "James R. Clapper (Statement and Archived Video)"
+        },
+        {
+          "url": "undefined//hearings.cfm?hearingid=138603a26950ad873303535a630ec9c9&witnessId=138603a26950ad873303535a630ec9c9-0-1",
+          "description": "James R. Clapper (Statement and Archived Video)"
+        }
+      ],
+      "pdfs": [],
+      "videos": [],
+      "path": "/var/www/html/hearings/113/140129"
+    },
+    {
+      "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingId=32caee8082f9297f0e7df6280b18427e",
+      "date": "2013-12-17T22:30:00.000Z",
+      "dateReadable": "December 17th 2013, 2:30 pm",
+      "shortdate": "131217",
+      "room": "Dirksen 106",
+      "session": 113,
+      "description": "Open Hearing: Nomination of Daniel Bennett Smith to be an Assistant Secretary of State (Intelligence and Research) and Caroline Diane Krass to be General Counsel of the Central Intelligence Agency",
+      "witnesses": [],
+      "links": [
+        {
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=32caee8082f9297f0e7df6280b18427e&witnessId=32caee8082f9297f0e7df6280b18427e-0-1",
+          "description": "Daniel Bennett Smith (Statements & Archived Video)"
+        },
+        {
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=32caee8082f9297f0e7df6280b18427e&witnessId=32caee8082f9297f0e7df6280b18427e-0-2",
+          "description": "Caroline Diane Krass (Statements & Archived Video)"
+        },
+        {
+          "url": "undefined//hearings.cfm?hearingid=32caee8082f9297f0e7df6280b18427e&witnessId=32caee8082f9297f0e7df6280b18427e-0-1",
+          "description": "Daniel Bennett Smith (Statements & Archived Video)"
+        },
+        {
+          "url": "undefined//hearings.cfm?hearingid=32caee8082f9297f0e7df6280b18427e&witnessId=32caee8082f9297f0e7df6280b18427e-0-2",
+          "description": "Caroline Diane Krass (Statements & Archived Video)"
+        }
+      ],
+      "pdfs": [],
+      "videos": [],
+      "path": "/var/www/html/hearings/113/131217"
+    },
+    {
+      "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingId=e419ea0c4a3b17dbece8cca516ad10be",
+      "date": "2013-09-26T21:00:00.000Z",
+      "dateReadable": "September 26th 2013, 2:00 pm",
+      "shortdate": "130926",
+      "room": "Hart 216",
+      "session": 113,
+      "description": "Open Hearing: FISA Legislation",
+      "witnesses": [],
+      "links": [],
+      "pdfs": [],
+      "videos": [],
+      "path": "/var/www/html/hearings/113/130926"
+    },
+    {
+      "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingId=ca26be28b030263ca445f6b117445d1f",
+      "date": "2013-03-12T17:00:00.000Z",
+      "dateReadable": "March 12th 2013, 10:00 am",
+      "shortdate": "130312",
+      "room": "Hart 216",
+      "session": 113,
+      "description": "Open Hearing: Current and Projected National Security Threats to the United States",
+      "witnesses": [
+        {
+          "name": "The Honorable James R. Clapper",
+          "title": "",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=ca26be28b030263ca445f6b117445d1f&witnessId=ca26be28b030263ca445f6b117445d1f-0-1",
+          "witnessId": "ca26be28b030263ca445f6b117445d1f-0-1"
+        }
+      ],
+      "links": [],
+      "pdfs": [],
+      "videos": [],
+      "path": "/var/www/html/hearings/113/130312"
+    },
+    {
+      "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingId=9318ed50aab093c084477e4ac0e75c65",
+      "date": "2013-02-07T22:30:00.000Z",
+      "dateReadable": "February 7th 2013, 2:30 pm",
+      "shortdate": "130207",
+      "room": "Hart 216",
+      "session": 113,
+      "description": "Open Hearing: Nomination of John O. Brennan to be the Director of the Central Intelligence Agency",
+      "witnesses": [
+        {
+          "name": "John O. Brennan",
+          "title": "",
+          "url": "http://www.intelligence.senate.gov/hearings.cfm?hearingid=9318ed50aab093c084477e4ac0e75c65&witnessId=9318ed50aab093c084477e4ac0e75c65-0-1",
+          "witnessId": "9318ed50aab093c084477e4ac0e75c65-0-1"
+        }
+      ],
+      "links": [],
+      "pdfs": [],
+      "videos": [],
+      "path": "/var/www/html/hearings/113/130207"
+    }
+  ]
+}
