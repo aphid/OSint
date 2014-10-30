@@ -1,21 +1,22 @@
+"use strict";
 var fs = require('fs'),
   injects = ['eval.js', 'lib/moment.min.js', 'lib/URI.js', 'lib/Autolinker.js'];
 var moment = require('lib/moment.min.js');
 var path = require('lib/path.js');
 //env?sys?
 
-console.log("Starting task on " + moment().format('MMMM Do YYYY, h:mm:ss a'));
+console.log('Starting task on ' + moment().format('MMMM Do YYYY, h:mm:ss a'));
 
 var senateScraper = {
-  dataPath: "/var/www/html/hearings/data/",
-  hearingPath: "/var/www/html/hearings",
-  getVidUrl: "http://metaviddemo01.ucsc.edu/asdf/getvid.php",
-  pdfurl: "http://localhost/hearingHandler/pdf.php"
+  dataPath: '/var/www/html/hearings/data/',
+  hearingPath: '/var/www/html/hearings',
+  getVidUrl: 'http://metaviddemo01.ucsc.edu/asdf/getvid.php',
+  pdfurl: 'http://localhost/hearingHandler/pdf.php'
 
 };
 
 var Committee = function (options) {
-  this.chamber = options.chamber || "senate";
+  this.chamber = options.chamber || 'senate';
   this.committee = options.committee;
   this.baseUrl = options.url;
   this.meta = [];
@@ -43,7 +44,7 @@ var Hearing = function (options) {
 };
 
 senateScraper.makeDir = function (path) {
-  console.log("+++++ TRYING " + path);
+  //console.log("+++++ TRYING " + path);
   if (!fs.exists(path)) {
     console.log("IT WASN'T THERE YET, MAKING");
     fs.makeDirectory(path);
@@ -100,7 +101,8 @@ Committee.prototype.fileify = function () {
 
 Hearing.prototype.addWitness = function (options) {
   for (var wit of this.witnesses) {
-    if (options.name === wit.name) {
+    if (options.name === wit.name || options.name.length < 2) {
+      console.log("Blocked bad or duplicate witness");
       return false;
     }
   }
@@ -196,9 +198,12 @@ Hearing.prototype.addPdf = function (options) {
 };
 
 Hearing.prototype.addLink = function (options) {
+  if (!options.url.contains('http')){
+   options.url = this.baseUrl + options.url; 
+  }
   for (var link of this.links) {
     if (options.url === link.url) {
-      console.log("Blocked duplicate pdf" + options.url);
+      console.log("Blocked duplicate link" + options.url);
       //do some things to add any other missing metadata
       return false;
     }
@@ -229,51 +234,54 @@ Committee.prototype.processHearings = function () {
 Committee.prototype.getDataFromJSON = function () {
   var filename, parsed, comm;
   comm = this;
-  for (var ses of this.sessions) {
-    var path = senateScraper.dataPath;
-    filename = path + ses + "_" + this.chamber + "_" + this.committee.toLowerCase() + ".json";
-    console.log("opening " + filename);
-    parsed = JSON.parse(fs.open(filename, 'r').read());
-    for (var hear of parsed.hearings) {
-      var theHearing = comm.addHearing({
-        description: hear.description,
-        url: hear.url,
-        date: hear.date,
-        room: hear.location,
-        session: hear.session,
-      });
-      if (theHearing) {
-        for (var wit of hear.witnesses) {
-          theHearing.addWitness(wit);
-        }
-
-        for (var pdf of hear.pdfs) {
-          theHearing.addPdf(pdf);
-        }
-        
-        for (var vid of hear.videos) {
-          theHearing.addVideo(vid);
-        }
-        
-        for (var link of hear.links) {
-          theHearing.addLink(link);
-        }
-
-        
+  var path = senateScraper.dataPath;
+  filename = path + this.chamber + "_" + this.committee.toLowerCase() + ".json";
+  console.log("opening " + filename);
+  parsed = JSON.parse(fs.open(filename, 'r').read());
+  for (var hear of parsed.hearings) {
+    var theHearing = comm.addHearing({
+      description: hear.description,
+      url: hear.url,
+      date: hear.date,
+      room: hear.location,
+      session: hear.session,
+    });
+    if (theHearing) {
+      for (var wit of hear.witnesses) {
+        theHearing.addWitness(wit);
       }
-    }
-  }
+      for (var pdf of hear.pdfs) {
+        theHearing.addPdf(pdf);
+      }  
+      for (var vid of hear.videos) {
+        theHearing.addVideo(vid);
+      }  
+      for (var link of hear.links) {
+        theHearing.addLink(link);
+      }
+        
+    }//if
+  }//for
   return Promise.resolve(true);
 };
 
 
-Committee.prototype.processWitnesses = function () {
-  var that = this;
-  return Promise.all(this.hearings.map(function (a) {
-    return a.witnesses.map(function (b) {
-      return b.update(that, a);
-    });
+Hearing.prototype.scrapeLinks = function () {
+  var hear = this;
+  return Promise.all(this.links.map(function (b) {
+    return b.update(hear);
   }));
+
+};
+
+Hearing.prototype.scrapeWitnesses = function () {
+  var hear = this;
+  return Promise.all(this.witnesses.map(function (b) {
+    return b.update(hear);
+  }));
+
+}
+
   /*
   for (var hearing of this.hearings) {
 
@@ -290,7 +298,7 @@ Committee.prototype.processWitnesses = function () {
   console.log(this.tasks + "!!!!! tasks to go");
   this.waitAndSave();
   */
-};
+
 
 Committee.prototype.processMedia = function () {
   var that = this;
@@ -433,22 +441,30 @@ Committee.prototype.report = function () {
 var intel = new Committee({
   committee: "Intelligence",
   chamber: "senate",
-  url: "http://www.intelligence.senate.gov",
+  url: "http://www.intelligence.senate.gov",  
   sessions: [110, 111, 112, 113]
 });
 
-intel.scrapeSessions().then(function (result) {
-  return intel.processHearings();
+intel.getDataFromJSON().then(function (result) {
+  console.log("what hey?");
+
+  //return intel.processHearings();
+  //intel.fileify();
 }).then(function (result) {
-  return intel.fileify();
-}).then(function (result) {
-  intel.report();
   for (var hearing of intel.hearings){
-    hearing.getPdfs(); 
+    //hearing.getPdfs();
+    hearing.scrapeLinks();
   }
+}).then(function(result){
+  for (var hearing of intel.hearings){
+  hearing.scrapeWitnesses();
+  }
+}).then(function (result){
+  intel.report();
+
+  
   phantom.exit();
 });
-
 //intel.getVideosFromJSON();
 //intel.processWitnesses();
 //intel.scrapeHDS();

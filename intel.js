@@ -1,16 +1,15 @@
-
 //gets hearings from committee website and saves to JSON
-Committee.prototype.scrapeSession = function(session) {
+Committee.prototype.scrapeSession = function (session) {
   var url = this.baseUrl,
     hearings = [],
     comm = this,
     page = require('webpage').create();
-    /* page.onConsoleMessage = function (msg) {
+  /* page.onConsoleMessage = function (msg) {
       console.log(msg);
     }); */
 
-  return new Promise(function(pass){
-    
+  return new Promise(function (pass) {
+
 
     console.log("Scraping congress " + session);
     console.log("url: " + (url + '/hearings.cfm?congress=' + session));
@@ -76,7 +75,7 @@ Committee.prototype.scrapeSession = function(session) {
 Hearing.prototype.process = function () {
   console.log("trying a hearing");
   var hearing = this;
-  return new Promise(function(resolve){
+  return new Promise(function (resolve) {
 
     if (!hearing.url.contains('http://')) {
       hearing.url = hearing.baseUrl + hearing.url;
@@ -107,9 +106,9 @@ Hearing.prototype.process = function () {
                 hear.pdfs.push(data);
               } else if (data.type === "witness") {
                 hear.witnesses.push(data);
-              } else if (data.type === "video"){
-                hear.videos.push(data); 
-              } else if (data.type === "link"){
+              } else if (data.type === "video") {
+                hear.videos.push(data);
+              } else if (data.type === "link") {
                 hear.links.push(data);
               } else {
                 console.log("UHHH WAT IS THIS");
@@ -129,42 +128,22 @@ Hearing.prototype.process = function () {
             witness.testimonyURL = hearing.baseUrl + witness.testimonyURL;
           }
           if (witness.name.trim() === "" && witness.title.trim().length > 1) {
-            if (witness.title.contains("Panel")){
+            if (witness.title.contains("Panel")) {
               hearing.panel = witness.title;
             }
             //hearing.addHappening(witness);
           } else {
-            if (hearing.panel !== undefined){
+            if (hearing.panel !== undefined) {
               witness.panel = hearing.panel;
             }
-            if (witness.title.length || witness.name.length){
+            if (witness.title.length || witness.name.length) {
               hearing.addWitness(witness);
             }
           }
         }
         //this next part feels liek something from /r/shittyprogramming, oh well
-        
-        for (var link of parsedHearing.links){
-          if (!link.url.contains("http://")){
-            link.url = hearing.baseUrl + "/" + link.url;
-            link.url = link.url.replace(".gov//", ".gov/");
-          }
-          hearing.addLink(link);
-        }
-        for (var pdf of parsedHearing.pdfs){
-          if (!pdf.url.contains("http://")){
-            pdf.url = hearing.baseUrl + "/" + pdf.url;
-          }
-          hearing.addPdf(pdf); 
-        }
-        for (var video of parsedHearing.videos){
-           if (!video.url.contains("http://")){
-            video.url = hearing.baseUrl + "/" + video.url;
-          }
-          hearing.addVideo(video); 
-        }
-        console.log("......done");
-        //done
+
+        hearing.grokParsed(parsedHearing);
         delete hearing.panel;
 
         resolve(true);
@@ -173,119 +152,109 @@ Hearing.prototype.process = function () {
   });
 };
 
+Hearing.prototype.grokParsed = function (parsedHearing) {
+  var hearing = this, 
+    links = [],
+    videos = [],
+    witnesses = [],
+    pdfs = [];
+  
+  for (data of parsedHearing) {
+    data.url = hearing.baseUrl + "/" + data.url;
+    data.url = data.url.replace(".gov//", ".gov/");
 
-Link.prototype.update = function (comm) {
-  var media = this;
-  var witnessPage = require('webpage').create();
-  witnessPage.onConsoleMessage = function (msg) {
-    console.log(msg);
-  };
-  if (this.url.contains('pdf') || this.url.contains('ivsp')) {
-    return new Promise(function(resolve){
-      resolve(true);
-      
-    });
-  }
-
-  console.log("Opening " + this.url);
-  witnessPage.open(this.url).then(function (status) {
-    for (var inject of injects) {
-      witnessPage.injectJs(inject);
+    if (data.type === "pdf") {
+      pdfs.push(data);
+    } else if (data.type === "witness") {
+      witnesses.push(data);
+    } else if (data.type === "video") {
+      videos.push(data);
+    } else if (data.type === "link") {
+      links.push(data);
     }
-    if (status === "success") {
-      var parsedWitness = witnessPage.evaluate(function () {
-        console.log("Evaluating...");
-
-        var hear = [];
-        console.log("testing " + document.querySelectorAll('a').length + " links");
-        for (var a of document.querySelectorAll('a')) {
-
-          var data = filterWitnesses(a);
-          if (data) {
-            console.log(JSON.stringify(data));
-            hear.push(data);
-          }
-        } //end a
-
-        return hear;
-
-      }); //end eval
-      if (parsedWitness) {
-        parsedWitness = parsedWitness[0];
-
-        media.url = parsedWitness.url;
-        console.log(media.url);
-        media.type = parsedWitness.type;
-        console.log(media.type);
-        media.filename = parsedWitness.filename;
-        media.startTime = parsedWitness.startTime;
-        console.log(media.startTime);
-        media.description = parsedWitness.description;
-        console.log('done parsing it');
-      } else {
-        console.log("killing media");
-        console.log(JSON.stringify(media));
-        media = null;
-      }
-      return new Promise(function(resolve){
-        resolve();
-      });
-
-    } //end success
-  }); //end open
-
+    /* 
+    } else {
+      hear.links.push(data);
+    }*/
+  }
+  console.log("******************************");
+  console.log("PARSING");
+  for (var link of links) {
+    hearing.addLink(link);
+  }
+  for (var pdf of pdfs) {
+    hearing.addPdf(pdf);
+  }
+  for (var witness of witnesses) {
+    hearing.addWitness(witness);
+  }
+  for (var video of videos) {
+    hearing.addVideo(video);
+    console.log("BOKBOKBOK");
+  }
+  console.log("...and scene!");
 };
 
-Witness.prototype.update = function (comm, hearing) {
-  var watness = this;
-  var witnessPage = require('webpage').create();
-  witnessPage.onConsoleMessage = function (msg) {
-    console.log(msg);
+Link.prototype.update = function (hearing) {
+  var link = this, parsedLink;
+  var linkPage = require('webpage').create();
+  linkPage.onConsoleMessage = function (message, line, file) {
+    console.log(file + " @" + line + ": " + message)
   };
-  if (this.url.contains('pdf')) {
-    return new Promise(function(resolve){
-      resolve(true);
-    });
-  }
-  console.log("Opening " + this.url);
+  linkPage.open(this.url).then(function (status) {
+    for (var inject of injects) {
+      linkPage.injectJs(inject);
+    }
+    if (status === "success") {
+      parsedLink = linkPage.evaluate(function () {
+        var hear = [];
+        console.log("testing " + document.querySelectorAll('a').length + " links");
+        for (var a of document.querySelectorAll('a')) {
+          var data = filterWitnesses(a);
+          if (data) {
+            hear.push(data);
+          }
+        } //end for
+      return hear;
+      }); //end eval
+      if (parsedLink) {
+        console.log(JSON.stringify(parsedLink));
+        hearing.grokParsed(parsedLink);
+        return new Promise(function (resolve) {
+          resolve();
+        });
+      }
+    } //end success
+  }); //end openx
+};
+Witness.prototype.update = function (hearing) {
+  var wit = this;
+  var witnessPage = require('webpage').create();
+  witnessPage.onConsoleMessage = function (message, line, file) {
+    console.log(file + " @" + line + ": " + message)
+  };
   witnessPage.open(this.url).then(function (status) {
     for (var inject of injects) {
       witnessPage.injectJs(inject);
     }
-    if (status === "success") {
-      console.log(witnessPage.url);
+   if (status === "success") {
       var parsedWitness = witnessPage.evaluate(function () {
-        console.log("Evaluating...");
-
         var hear = [];
         console.log("testing " + document.querySelectorAll('a').length + " links");
         for (var a of document.querySelectorAll('a')) {
-
           var data = filterWitnesses(a);
           if (data) {
-            console.log(JSON.stringify(data));
             hear.push(data);
-
           }
-        } //end a
-
-        return hear;
-
+        }
+      return hear;
       }); //end eval
-      for (var m of parsedWitness) {
-        if (!m.url.contains("http://")) {
-          console.log("tweaking url");
-          m.url = comm.baseUrl + m.url;
-        }
-        if (watness.name.length){
-          m.witnessRef = watness.witnessId;
-        }
-        hearing.addMedia(m);
+      if (parsedWitness) {
+        hearing.grokParsed(parsedWitness);
+        return new Promise(function (resolve) {
+          resolve();
+        });
       }
-      return new Promise(function(resolve){
-        resolve(true);
-      });
-    } //end success
+    }
   }); //end open
-
 };

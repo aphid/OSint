@@ -7,8 +7,8 @@ var filterMedia = function(a) {
       type: "unknown",
       url: href,
       description: name
-    }
-  
+    };
+  console.log(a);
   if (a.protocol === "javascript:") {
     if (a.getAttribute('onclick')){
       href = a.getAttribute('onclick').replace("window.open('", "").split("'")[0];
@@ -17,7 +17,6 @@ var filterMedia = function(a) {
       return false;
     }
   }
-  
   if (href.contains("pdf")) {
     data.type = "pdf";
   } else if (href.contains(".ram") || href.contains("fplayer")) {
@@ -55,7 +54,7 @@ var filterWitnesses = function(a) {
       url: href.replace(/\n/g, ''),
       description: name
     };
-  
+  media.description = name;
   if (a.protocol === "javascript:") {
     if (a.getAttribute('onclick')){
       href = a.getAttribute('onclick').replace("window.open('", "").split("'")[0];
@@ -64,26 +63,24 @@ var filterWitnesses = function(a) {
       return false;
     }
   }
-  if (href.contains("void") || href.contains("<") || !href.contains('http') || href === "http://www.senate.gov"){
+  if (href.contains("void") || href.contains("<") || name.contains("Congress") || href === "http://www.senate.gov"){
     return false;
   }
-  console.log("wut: " + href);
   if (href.contains("pdf")) {
     media.type = "pdf";
   } else if (href.contains(".ram")) {
     //realvideo, yuck
-    media.type = "real";
+    media.type = "video";
   } else if (name.contains("Congress")) {
-    return undefined;
+    return name;
   } else if (href.contains("isvp")) {
-    console.log("we got a video");
-    media.type = "HDS";
+    media.type = "video";
     media.filename = URI(media.url).search(true).filename;
     media.startTime = URI(media.url).search(true).stt;
     media.duration = URI(media.url).search(true).duration;
     
   } else if (href.contains("fplayers")){
-    media.type = "FMS->HDS";
+    media.type = "video";
     media.filename = URI(media.url).search(true).fn;
     media.startTime = URI(media.url).search(true).st;
     media.duration = URI(media.url).search(true).dur;
