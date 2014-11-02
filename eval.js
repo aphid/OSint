@@ -21,12 +21,11 @@ var filterMedia = function(a) {
     data.type = "pdf";
   } else if (href.contains(".ram") || href.contains("fplayer")) {
     data.type = "video";
-  } else if (name.contains("Congress")) {
-    data.type = "filterOut";
+  } else if (name.contains("Congress") || href.contains("<")) {
+    return false;
   } else if (href.contains("witnessId") || a.textContent.contains("& Opening Statements")) {
     title = a.parentNode.textContent.replace(/\s+/g, ' ').trim();
     data.witnessId = URI(href).search(true).witnessId;
-    console.log(data.witnessId);
     if (title.contains("Video") && !href.contains(".ram")) {
       data.type = "link";
       data.title = title;
@@ -37,7 +36,6 @@ var filterMedia = function(a) {
       //Probably a witness!
       data.name = name.replace(" (Statements & Archived Video)", "").replace(" (Opening Statement and Archived Video)", "").replace(" (Statement and Archived Video)", "");
       data.title = title.trim().replace(name, "");
-      data.testimonyURL = href;
       data.type = "witness";
     }
   } else {

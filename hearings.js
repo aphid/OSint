@@ -75,7 +75,6 @@ Committee.prototype.addHearing = function (options) {
     }
   }
   this.hearings.push(hearing);
-  console.log("successfully added?");
   return hearing;
 };
 
@@ -130,7 +129,7 @@ var Video = function (options) {
   if (this.url.contains("ivsp")) {
     this.type = "HDS";
   } else if (this.url.contains("fplayer")) {
-    this.url = ""; //correct for wrong url structure
+    //this.url = ""; //correct for wrong url structure
     //essentially becomes isvp / date / something
     this.type = "HDS";
   } else if (this.url.contains(".ram")) {
@@ -174,21 +173,23 @@ var Link = function (options) {
 };
 
 Hearing.prototype.addVideo = function (options) {
+
   for (var vid of this.videos) {
     if (options.url === vid.url) {
-      console.log("Blocked duplicate media" + options.url);
+      console.log("Blocked duplicate video " + options.url + " vs " + vid.url);
       //do some things to add any other missing metadata
       return false;
     }
   }
   var video = new Video(options);
+  console.log(JSON.stringify(video));
   this.videos.push(video);
 };
 
 Hearing.prototype.addPdf = function (options) {
   for (var pdf of this.pdfs) {
     if (options.url === pdf.url) {
-      console.log("Blocked duplicate pdf" + options.url);
+      console.log("Blocked duplicate pdf " + options.url + " vs " + pdf.url);
       //do some things to add any other missing metadata
       return false;
     }
@@ -203,7 +204,7 @@ Hearing.prototype.addLink = function (options) {
   }
   for (var link of this.links) {
     if (options.url === link.url) {
-      console.log("Blocked duplicate link" + options.url);
+      console.log("Blocked duplicate link " + options.url + " vs " + link.url );
       //do some things to add any other missing metadata
       return false;
     }
@@ -240,6 +241,7 @@ Committee.prototype.getDataFromJSON = function () {
   parsed = JSON.parse(fs.open(filename, 'r').read());
   for (var hear of parsed.hearings) {
     var theHearing = comm.addHearing({
+      baseUrl: hear.baseUrl,
       description: hear.description,
       url: hear.url,
       date: hear.date,
@@ -445,21 +447,30 @@ var intel = new Committee({
   sessions: [110, 111, 112, 113]
 });
 
-intel.getDataFromJSON().then(function (result) {
+console.log("Scraping Sessions!");
+intel.scrapeSessions().then(function (result) {
   console.log("what hey?");
-
-  //return intel.processHearings();
-  //intel.fileify();
+  
+console.log("Processing Hearings!");
+  return intel.processHearings();
 }).then(function (result) {
-  for (var hearing of intel.hearings){
-    //hearing.getPdfs();
+  for (var hearing of intel.hearings){   
     hearing.scrapeLinks();
   }
 }).then(function(result){
   for (var hearing of intel.hearings){
   hearing.scrapeWitnesses();
   }
+}).then(function(result){
+  for (var hearing of intel.hearings){
+  hearing.scrapeLinks();
+  }
+}).then(function(result){
+  for (var hearing of intel.hearings){
+  hearing.scrapeWitnesses();
+  }
 }).then(function (result){
+  intel.fileify();
   intel.report();
 
   
@@ -468,3 +479,5 @@ intel.getDataFromJSON().then(function (result) {
 //intel.getVideosFromJSON();
 //intel.processWitnesses();
 //intel.scrapeHDS();
+//hearing.getPdfs();
+ 

@@ -73,112 +73,88 @@ Committee.prototype.scrapeSession = function (session) {
 };
 
 Hearing.prototype.process = function () {
-  console.log("trying a hearing");
+  //fix this shit to work with grok
+  console.log(".");
   var hearing = this;
-  return new Promise(function (resolve) {
 
-    if (!hearing.url.contains('http://')) {
-      hearing.url = hearing.baseUrl + hearing.url;
+  if (!hearing.url.contains('http://')) {
+    hearing.url = hearing.baseUrl + hearing.url;
+  }
+  //console.log("Loading " + hearing.url);
+  var hearingPage = require('webpage').create();
+  hearingPage.open(hearing.url).then(function (status) {
+    for (var inject of injects) {
+      hearingPage.injectJs(inject);
     }
-    console.log("Loading " + hearing.url);
-    var hearingPage = require('webpage').create();
-    hearingPage.open(hearing.url).then(function (status) {
-      for (var inject of injects) {
-        hearingPage.injectJs(inject);
-      }
-      if (status === "success") {
-        var parsedHearing = hearingPage.evaluate(function () {
-          var hear = {};
-          hear.witnesses = [];
-          hear.pdfs = [];
-          hear.videos = [];
-          hear.links = [];
-          for (var td of document.querySelectorAll('.hearingTxt')) {
-            if (td.textContent === "Location") {
-              hear.location = td.nextElementSibling.textContent.trim();
-            }
-          }
+    if (status === "success") {
+      var parsedHearing = hearingPage.evaluate(function () {
+        var hear = [];
 
-          for (var a of document.querySelectorAll('a')) {
-            var data = filterMedia(a);
-            if (data) {
-              if (data.type === "pdf") {
-                hear.pdfs.push(data);
-              } else if (data.type === "witness") {
-                hear.witnesses.push(data);
-              } else if (data.type === "video") {
-                hear.videos.push(data);
-              } else if (data.type === "link") {
-                hear.links.push(data);
-              } else {
-                console.log("UHHH WAT IS THIS");
-                console.log(JSON.stringify(data));
-              }
-            }
-          } //end a
-          hear.description = document.querySelector('td.hearingTxtb').textContent;
-          return hear;
-        }); // end eval
-        hearingPage.close();
-        //console.log("eval over");
-        hearing.room = parsedHearing.location;
-        hearing.description = parsedHearing.description;
-        for (var witness of parsedHearing.witnesses) {
-          if (!witness.testimonyURL.contains('http')) {
-            witness.testimonyURL = hearing.baseUrl + witness.testimonyURL;
-          }
-          if (witness.name.trim() === "" && witness.title.trim().length > 1) {
-            if (witness.title.contains("Panel")) {
-              hearing.panel = witness.title;
-            }
-            //hearing.addHappening(witness);
-          } else {
-            if (hearing.panel !== undefined) {
-              witness.panel = hearing.panel;
-            }
-            if (witness.title.length || witness.name.length) {
-              hearing.addWitness(witness);
-            }
+        for (var td of document.querySelectorAll('.hearingTxt')) {
+          if (td.textContent === "Location") {
+            hear.location = td.nextElementSibling.textContent.trim();
           }
         }
-        //this next part feels liek something from /r/shittyprogramming, oh well
 
-        hearing.grokParsed(parsedHearing);
-        delete hearing.panel;
+        for (var a of document.querySelectorAll('a')) {
+          var data = filterMedia(a);
+          if (data.type !== "filterOut") {
+            hear.push(data);
+          }
+        } //end a
+        hear.description = document.querySelector('td.hearingTxtb').textContent;
+        return hear;
+      }); // end eval
+      hearingPage.close();
+      //console.log("eval over");
+      hearing.room = parsedHearing.location;
+      hearing.description = parsedHearing.description;
 
-        resolve(true);
-      }
-    });
+      //this next part feels liek something from /r/shittyprogramming, oh well
+      hearing.grokParsed(parsedHearing);
+      delete hearing.panel;
+    }
+  });
+
+  return new Promise(function (resolve) {
+    resolve();
   });
 };
 
 Hearing.prototype.grokParsed = function (parsedHearing) {
-  var hearing = this, 
+  var hearing = this,
     links = [],
     videos = [],
     witnesses = [],
     pdfs = [];
-  
   for (data of parsedHearing) {
-    data.url = hearing.baseUrl + "/" + data.url;
-    data.url = data.url.replace(".gov//", ".gov/");
-
-    if (data.type === "pdf") {
-      pdfs.push(data);
-    } else if (data.type === "witness") {
-      witnesses.push(data);
-    } else if (data.type === "video") {
-      videos.push(data);
-    } else if (data.type === "link") {
-      links.push(data);
+    if (data) {
+      if (!data.url.contains("http")) {
+        data.url = (hearing.baseUrl + "/" + data.url).replace(".gov//", ".gov/");
+      }
+      if (data.type === "pdf") {
+        pdfs.push(data);
+      } else if (data.type === "witness") {
+        if (data.name.trim() === "" && data.title.trim().length > 1) {
+          if (data.title.contains("Panel")) {
+            hearing.panel = data.title;
+          }
+        } else {
+          if (hearing.panel !== undefined) {
+            data.panel = hearing.panel;
+          }
+          if (data.title.length || data.name.length) {
+            witnesses.push(data);
+          }
+        }
+      
+      } else if (data.type === "video") {
+        videos.push(data);
+      } else if (data.type === "link") {
+        links.push(data);
+      }
     }
-    /* 
-    } else {
-      hear.links.push(data);
-    }*/
   }
-  console.log("******************************");
-  console.log("PARSING");
   for (var link of links) {
     hearing.addLink(link);
   }
@@ -190,13 +166,12 @@ Hearing.prototype.grokParsed = function (parsedHearing) {
   }
   for (var video of videos) {
     hearing.addVideo(video);
-    console.log("BOKBOKBOK");
   }
-  console.log("...and scene!");
 };
 
 Link.prototype.update = function (hearing) {
-  var link = this, parsedLink;
+  var link = this,
+    parsedLink;
   var linkPage = require('webpage').create();
   linkPage.onConsoleMessage = function (message, line, file) {
     console.log(file + " @" + line + ": " + message)
@@ -215,8 +190,9 @@ Link.prototype.update = function (hearing) {
             hear.push(data);
           }
         } //end for
-      return hear;
+        return hear;
       }); //end eval
+      linkPage.close();
       if (parsedLink) {
         console.log(JSON.stringify(parsedLink));
         hearing.grokParsed(parsedLink);
@@ -225,7 +201,7 @@ Link.prototype.update = function (hearing) {
         });
       }
     } //end success
-  }); //end openx
+  }); //end open
 };
 Witness.prototype.update = function (hearing) {
   var wit = this;
@@ -237,7 +213,7 @@ Witness.prototype.update = function (hearing) {
     for (var inject of injects) {
       witnessPage.injectJs(inject);
     }
-   if (status === "success") {
+    if (status === "success") {
       var parsedWitness = witnessPage.evaluate(function () {
         var hear = [];
         console.log("testing " + document.querySelectorAll('a').length + " links");
@@ -247,8 +223,9 @@ Witness.prototype.update = function (hearing) {
             hear.push(data);
           }
         }
-      return hear;
+        return hear;
       }); //end eval
+      witnessPage.close();
       if (parsedWitness) {
         hearing.grokParsed(parsedWitness);
         return new Promise(function (resolve) {
