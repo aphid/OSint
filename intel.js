@@ -147,7 +147,7 @@ Hearing.prototype.grokParsed = function (parsedHearing) {
             witnesses.push(data);
           }
         }
-      
+
       } else if (data.type === "video") {
         videos.push(data);
       } else if (data.type === "link") {
@@ -234,4 +234,25 @@ Witness.prototype.update = function (hearing) {
       }
     }
   }); //end open
+};
+
+
+Hearing.prototype.sanitizeMedia = function () {
+  var hear = this,
+    rmurl;
+  //Only two hearings have linked video, one of those doesn't work.  Instead replace these procedurally
+  if (hear.session < 111) {
+    //we need to construct a url that looks like this: http://www.senate.gov/legacymedia/www/intel080107.rm where intel is (committee-short), then monthdayyear
+    console.log("it was okay");
+    rmurl = "http://www.senate.gov/legacymedia/www/intel" + moment(hear.date).format('MMDDYY') + ".rm";
+    console.log("NEW URL!!!!! " + rmurl);
+    hear.addVideo({
+      url: rmurl,
+      type: "RealMedia",
+      description: "",
+      note: "test"
+    });
+
+  }
+
 };

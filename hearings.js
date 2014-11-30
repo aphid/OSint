@@ -93,7 +93,7 @@ Committee.prototype.fileify = function () {
     var filename = comm.chamber + "_" + comm.committee.toLowerCase() + ".json";
     console.log("Writing to " + senateScraper.dataPath + filename);
     fs.write(senateScraper.dataPath + filename, data);
-  
+
     resolve(true);
   });
 };
@@ -146,16 +146,16 @@ var Pdf = function (options) {
 
 Hearing.prototype.getPdfs = function () {
   var hear = this;
-  for (var pdf of this.pdfs){
+  for (var pdf of this.pdfs) {
     var pdfpage = require('webpage').create();
-    var data = "date=" + this.shortdate + "&session=" + hear.session + "&pdf=" + pdf.filename; 
+    var data = "date=" + this.shortdate + "&session=" + hear.session + "&pdf=" + pdf.filename;
     console.log(senateScraper.pdfurl + "   " + JSON.stringify(data));
-    
-    pdfpage.open(senateScraper.pdfurl, "post", data).then(function(status){
+
+    pdfpage.open(senateScraper.pdfurl, "post", data).then(function (status) {
       //console.log("WOWOWOWOWO " + hear.shortdate + " " + pdf.filename);
       //console.log(pdfpage.plainText);
-      
-    }); 
+
+    });
   }
 };
 
@@ -173,7 +173,7 @@ var Link = function (options) {
 };
 
 Hearing.prototype.addVideo = function (options) {
-
+  //expect type, url, description
   for (var vid of this.videos) {
     if (options.url === vid.url) {
       console.log("Blocked duplicate video " + options.url + " vs " + vid.url);
@@ -189,7 +189,7 @@ Hearing.prototype.addVideo = function (options) {
 Hearing.prototype.addPdf = function (options) {
   for (var pdf of this.pdfs) {
     if (options.url === pdf.url) {
-      console.log("Blocked duplicate pdf " + options.url + " vs " + pdf.url);
+      //console.log("Blocked duplicate pdf " + options.url + " vs " + pdf.url);
       //do some things to add any other missing metadata
       return false;
     }
@@ -199,12 +199,12 @@ Hearing.prototype.addPdf = function (options) {
 };
 
 Hearing.prototype.addLink = function (options) {
-  if (!options.url.contains('http')){
-   options.url = this.baseUrl + options.url; 
+  if (!options.url.contains('http')) {
+    options.url = this.baseUrl + options.url;
   }
   for (var link of this.links) {
     if (options.url === link.url) {
-      console.log("Blocked duplicate link " + options.url + " vs " + link.url );
+      console.log("Blocked duplicate link " + options.url + " vs " + link.url);
       //do some things to add any other missing metadata
       return false;
     }
@@ -254,16 +254,16 @@ Committee.prototype.getDataFromJSON = function () {
       }
       for (var pdf of hear.pdfs) {
         theHearing.addPdf(pdf);
-      }  
+      }
       for (var vid of hear.videos) {
         theHearing.addVideo(vid);
-      }  
+      }
       for (var link of hear.links) {
         theHearing.addLink(link);
       }
-        
-    }//if
-  }//for
+
+    } //if
+  } //for
   return Promise.resolve(true);
 };
 
@@ -284,7 +284,10 @@ Hearing.prototype.scrapeWitnesses = function () {
 
 }
 
-  /*
+
+
+
+/*
   for (var hearing of this.hearings) {
 
     for (var witness of hearing.witnesses) {
@@ -443,41 +446,43 @@ Committee.prototype.report = function () {
 var intel = new Committee({
   committee: "Intelligence",
   chamber: "senate",
-  url: "http://www.intelligence.senate.gov",  
+  url: "http://www.intelligence.senate.gov",
   sessions: [110, 111, 112, 113]
 });
 
 console.log("Scraping Sessions!");
 intel.scrapeSessions().then(function (result) {
   console.log("what hey?");
-  
-console.log("Processing Hearings!");
+
+  console.log("Processing Hearings!");
   return intel.processHearings();
 }).then(function (result) {
-  for (var hearing of intel.hearings){   
+  for (var hearing of intel.hearings) {
     hearing.scrapeLinks();
   }
-}).then(function(result){
-  for (var hearing of intel.hearings){
-  hearing.scrapeWitnesses();
+}).then(function (result) {
+  for (var hearing of intel.hearings) {
+    hearing.scrapeWitnesses();
   }
-}).then(function(result){
-  for (var hearing of intel.hearings){
-  hearing.scrapeLinks();
+}).then(function (result) {
+  for (var hearing of intel.hearings) {
+    hearing.scrapeLinks();
   }
-}).then(function(result){
-  for (var hearing of intel.hearings){
-  hearing.scrapeWitnesses();
+}).then(function (result) {
+  for (var hearing of intel.hearings) {
+    hearing.scrapeWitnesses();
   }
-}).then(function (result){
+}).then(function (result) {
+  for (var hearing of intel.hearings) {
+    hearing.sanitizeMedia();
+  }
   intel.fileify();
   intel.report();
 
-  
+
   phantom.exit();
 });
 //intel.getVideosFromJSON();
 //intel.processWitnesses();
 //intel.scrapeHDS();
 //hearing.getPdfs();
- 

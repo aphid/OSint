@@ -1,5 +1,5 @@
 //filters media from first pass of scraping
-var filterMedia = function(a) {
+var filterMedia = function (a) {
   var title,
     href = a.getAttribute('href'),
     name = a.textContent.trim(),
@@ -10,10 +10,10 @@ var filterMedia = function(a) {
     };
   console.log(a);
   if (a.protocol === "javascript:") {
-    if (a.getAttribute('onclick')){
+    if (a.getAttribute('onclick')) {
       href = a.getAttribute('onclick').replace("window.open('", "").split("'")[0];
       data.url = href;
-    } else { 
+    } else {
       return false;
     }
   }
@@ -29,7 +29,7 @@ var filterMedia = function(a) {
     if (title.contains("Video") && !href.contains(".ram")) {
       data.type = "link";
       data.title = title;
-    } else if (title.contains("Additional") || name.contains("Response") || ( name.contains("Statement") && !name.contains("Archived"))) {
+    } else if (title.contains("Additional") || name.contains("Response") || (name.contains("Statement") && !name.contains("Archived"))) {
       data.type = "link";
       data.title = title;
     } else {
@@ -45,7 +45,7 @@ var filterMedia = function(a) {
 };
 
 //filters media from second pass of scraping
-var filterWitnesses = function(a) {
+var filterWitnesses = function (a) {
   var href = a.getAttribute('href'),
     name = a.textContent.trim(),
     media = {
@@ -54,14 +54,14 @@ var filterWitnesses = function(a) {
     };
   media.description = name;
   if (a.protocol === "javascript:") {
-    if (a.getAttribute('onclick')){
+    if (a.getAttribute('onclick')) {
       href = a.getAttribute('onclick').replace("window.open('", "").split("'")[0];
       media.url = href;
-    } else { 
+    } else {
       return false;
     }
   }
-  if (href.contains("void") || href.contains("<") || name.contains("Congress") || href === "http://www.senate.gov"){
+  if (href.contains("void") || href.contains("<") || name.contains("Congress") || href === "http://www.senate.gov") {
     return false;
   }
   if (href.contains("pdf")) {
@@ -76,13 +76,13 @@ var filterWitnesses = function(a) {
     media.filename = URI(media.url).search(true).filename;
     media.startTime = URI(media.url).search(true).stt;
     media.duration = URI(media.url).search(true).duration;
-    
-  } else if (href.contains("fplayers")){
+
+  } else if (href.contains("fplayers")) {
     media.type = "video";
     media.filename = URI(media.url).search(true).fn;
     media.startTime = URI(media.url).search(true).st;
     media.duration = URI(media.url).search(true).dur;
   }
   return media;
-  
+
 };
