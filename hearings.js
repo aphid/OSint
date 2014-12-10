@@ -1,19 +1,3 @@
-"use strict";
-var fs = require('fs'),
-  injects = ['eval.js', 'lib/moment.min.js', 'lib/URI.js', 'lib/Autolinker.js'];
-var moment = require('lib/moment.min.js');
-var path = require('lib/path.js');
-//env?sys?
-
-console.log('Starting task on ' + moment().format('MMMM Do YYYY, h:mm:ss a'));
-
-var senateScraper = {
-  dataPath: '/var/www/html/hearings/data/',
-  hearingPath: '/var/www/html/hearings',
-  getVidUrl: 'http://metaviddemo01.ucsc.edu/asdf/getvid.php',
-  pdfurl: 'http://localhost/hearingHandler/pdf.php'
-
-};
 
 var Committee = function (options) {
   this.chamber = options.chamber || 'senate';
@@ -82,14 +66,11 @@ Committee.prototype.fileify = function () {
   var comm = this;
   console.log("Starting file save...");
   return new Promise(function (resolve) {
-    console.log("so far so good");
-    console.log("organizing for files");
     var hearings = comm.hearings;
     var thing = JSON.parse(JSON.stringify(comm));
     thing.meta.writeTime = moment().format('MMMM Do YYYY, h:mm:ss a');
     thing.hearings = hearings;
     var data = JSON.stringify(thing, undefined, 2);
-    //console.log(data);
     var filename = comm.chamber + "_" + comm.committee.toLowerCase() + ".json";
     console.log("Writing to " + senateScraper.dataPath + filename);
     fs.write(senateScraper.dataPath + filename, data);
@@ -152,8 +133,7 @@ Hearing.prototype.getPdfs = function () {
     console.log(senateScraper.pdfurl + "   " + JSON.stringify(data));
 
     pdfpage.open(senateScraper.pdfurl, "post", data).then(function (status) {
-      //console.log("WOWOWOWOWO " + hear.shortdate + " " + pdf.filename);
-      //console.log(pdfpage.plainText);
+
 
     });
   }
@@ -442,47 +422,3 @@ Committee.prototype.report = function () {
   }
   console.log(videos + " videos, " + links + " links, " + witnesses + " witnesses, and " + pdfs + " pdfs");
 };
-
-var intel = new Committee({
-  committee: "Intelligence",
-  chamber: "senate",
-  url: "http://www.intelligence.senate.gov",
-  sessions: [110, 111, 112, 113]
-});
-
-console.log("Scraping Sessions!");
-intel.scrapeSessions().then(function (result) {
-  console.log("what hey?");
-
-  console.log("Processing Hearings!");
-  return intel.processHearings();
-}).then(function (result) {
-  for (var hearing of intel.hearings) {
-    hearing.scrapeLinks();
-  }
-}).then(function (result) {
-  for (var hearing of intel.hearings) {
-    hearing.scrapeWitnesses();
-  }
-}).then(function (result) {
-  for (var hearing of intel.hearings) {
-    hearing.scrapeLinks();
-  }
-}).then(function (result) {
-  for (var hearing of intel.hearings) {
-    hearing.scrapeWitnesses();
-  }
-}).then(function (result) {
-  for (var hearing of intel.hearings) {
-    hearing.sanitizeMedia();
-  }
-  intel.fileify();
-  intel.report();
-
-
-  phantom.exit();
-});
-//intel.getVideosFromJSON();
-//intel.processWitnesses();
-//intel.scrapeHDS();
-//hearing.getPdfs();
