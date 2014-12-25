@@ -1,4 +1,3 @@
-
 var Committee = function (options) {
   this.chamber = options.chamber || 'senate';
   this.committee = options.committee;
@@ -103,19 +102,19 @@ var Video = function (options) {
   this.url = options.url;
   this.type = options.type;
   this.description = options.description;
-  this.startTime = options.startTime;
+  this.startTime = options.startTime || "0";
   this.filename = options.filename;
   this.witnessRef = options.witnessRef;
   this.metadata = {};
   if (this.url.contains("ivsp")) {
-    this.type = "HDS";
+    this.type = "hds";
   } else if (this.url.contains("fplayer")) {
-    //this.url = ""; //correct for wrong url structure
-    //essentially becomes isvp / date / something
-    this.type = "HDS";
-  } else if (this.url.contains(".ram")) {
-    this.type = "RealMedia";
+    this.type = "flv";
   }
+  else if (this.url.contains(".ram")) {
+    this.type = "rm";
+  }
+  
 };
 
 var Pdf = function (options) {
@@ -297,90 +296,6 @@ Committee.prototype.processMedia = function () {
 
 
 
-/*
-Committee.prototype.waitAndScrape = function () {
-  var comm = this;
-  if (comm.tasks > 0) {
-    setTimeout(function () {
-      console.log("Busy, waiting for the next one");
-      comm.waitAndScrape();
-    }, 10000);
-  } else {
-    console.log("Done, saving now");
-    comm.scrapeHDS();
-  }
-}; */
-
-/* refactor 
-Committee.prototype.scrapeHDS = function () {
-  if (!this.temp.hds) {
-    //initialize
-    this.temp.hds = [];
-    for (var hear of this.hearings) {
-      for (var video of hear.video) {
-        if (video.type === "HDS" && "status" !== "finished") {
-          this.temp.hds.push(video);
-        }
-      }
-
-    }
-  }
-  var working = this.temp.hds.pop();
-  working.scrapeVideo(this);
-  this.waitAndScrape();
-
-}; */
-/* UGH REFACTOR 
-Video.prototype.scrape = function (comm) {
-  var video = this,
-    auth = false,
-    manifest = false,
-    once = false;
-  comm.tasks++;
-  this.status = "working";
-  var scrapePage = require('webpage').create();
-
-
-  scrapePage.open(this.url).then(function (status) {});
-
-  scrapePage.onConsoleMessage = function (msg) {
-    console.log(msg);
-  };
-
-
-  scrapePage.onResourceReceived = function (response) {
-    if (response.url.contains("f4m") && response.status < 400 && manifest === false) {
-      console.log("GOT MANIFEST*****========>");
-      manifest = response.url;
-    } else if (response.url.contains("als") && response.status < 400 && auth === false) {
-      console.log("GOT AUTH*********========>");
-      auth = response.url.split("?")[1];
-    }
-
-    if (manifest !== false && auth !== false && once === false) {
-      once = true;
-      console.log("****AUTH=" + auth);
-      console.log("****MANIFEST=" + manifest);
-      console.log("****FILENAME=" + JSON.stringify(media, undefined, 2));
-      var data = { 
-        "filename": media.filename,
-        "manifest": manifest, 
-        "auth": auth
-      };
-        console.log("beep " + JSON.stringify(data));
-
-      media.requestTarget(data, comm, scrapePage);
-    }
-
-  };
-
-
-
-  console.log("opening " + this.url);
-
-
-
-}; */
 
 Video.prototype.requestTarget = function (data, comm, scrapePage) {
   scrapePage.close();
@@ -421,4 +336,24 @@ Committee.prototype.report = function () {
     pdfs += hear.pdfs.length;
   }
   console.log(videos + " videos, " + links + " links, " + witnesses + " witnesses, and " + pdfs + " pdfs");
+};
+
+Video.getHDSdata = function () {
+  var vid = this;
+  var url;
+  var page = require('webpage').create();
+  page.onResourceReceived = function(response) {
+    if (response.status === 200 && (response.url.contains('manifest') || response.url.contains('flv'))  && (!response.url.contains('gif'))){
+      console.log(">>>>>>>>>>  " + response.status);
+      if (response.url.contains('flv'));
+      url = response.url;
+      console.log(url);
+      page.close();
+      
+    }
+};
+
+  page.open(url, function () { // executed after loading
+
+  });
 };

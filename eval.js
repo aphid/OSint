@@ -69,19 +69,22 @@ var filterWitnesses = function (a) {
   } else if (href.contains(".ram")) {
     //realvideo, yuck
     media.type = "video";
+    media.filename = href.split('/').pop().replace('.ram', '');
   } else if (name.contains("Congress")) {
     return name;
-  } else if (href.contains("isvp")) {
+  } else if (href.contains("isvp") || href.contains("fplayers")) {
     media.type = "video";
-    media.filename = URI(media.url).search(true).filename;
-    media.startTime = URI(media.url).search(true).stt;
-    media.duration = URI(media.url).search(true).duration;
-
-  } else if (href.contains("fplayers")) {
-    media.type = "video";
-    media.filename = URI(media.url).search(true).fn;
-    media.startTime = URI(media.url).search(true).st;
-    media.duration = URI(media.url).search(true).dur;
+    if (URI(media.url).search(true).filename !== undefined){
+      media.filename = URI(media.url).search(true).filename;
+    } else if (URI(media.url).search(true).fn !== undefined) {
+      media.filename = URI(media.url).search(true).fn
+    } else {
+      media.filename = "saison"; 
+    }
+  
+    
+    media.startTime = URI(media.url).search(true).stt || URI(media.url).search(true).st;
+    media.duration = URI(media.url).search(true).duration || URI(media.url).search(true).dur;  
   }
   return media;
 

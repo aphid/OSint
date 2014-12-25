@@ -27,6 +27,13 @@ var intel = new Committee({
 });
 
 console.log("Scraping Sessions!");
+
+//senateScraper.getHDSdata('http://www.senate.gov/isvp/?type=live&comm=intel&filename=intel021611&stt=0:20:10');
+
+
+
+
+
 intel.scrapeSessions().then(function (result) {
   console.log("what hey?");
 
@@ -64,7 +71,6 @@ intel.scrapeSessions().then(function (result) {
 
   phantom.exit();
 });
-//intel.getVideosFromJSON();
 //intel.processWitnesses();
 //intel.scrapeHDS();
-//hearing.getPdfs();
+//hearing.getPdfs();*/

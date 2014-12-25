@@ -165,6 +165,7 @@ Hearing.prototype.grokParsed = function (parsedHearing) {
     hearing.addWitness(witness);
   }
   for (var video of videos) {
+    console.log(JSON.stringify(video, undefined, 2));
     hearing.addVideo(video);
   }
 };
@@ -253,6 +254,76 @@ Hearing.prototype.sanitizeMedia = function () {
       note: "test"
     });
 
+  } //end if
+
+
+  //now move 'old' videos from this format: http://www.senate.gov/fplayers/jw57/commMP4Player.cfm?fn=intel013112&st=xxx
+  //to this http://www.senate.gov/isvp/?type=live&comm=intel&filename=intel112014&stt=01:05:38",
+  for (var vid of hear.videos) {
+    if (vid.url.contains('fplayer')) {
+      vid.oldurl = vid.url;
+      if (!vid.startTime.contains('x' && !vid.startTime.contains(':'))) {
+        console.log("trying " + vid.startTime);
+        vid.startTime = moment().startOf('day').seconds(vid.startTime).format('H:mm:ss');
+
+      }
+      console.log(vid.startTime);
+    }
+    if (vid.filename === undefined && vid.url.contains('filename')) {
+      var split = vid.url.split("&filename=");
+      split = split[1].split('&');
+      split = split[0];
+      console.log("AAAAAARGH >>>> " + split); 
+      vid.filename = split;
+      
+    }  else if (vid.filename === undefined && vid.url.contains('fn')) {
+      var split = vid.url.split("?fn=");
+      split = split[1].split('&');
+      split = split[0];
+      console.log("AAAAAARGH >>>> " + split); 
+      vid.filename = split;      
+    } 
+      vid.url = "http://www.senate.gov/isvp/?type=live&comm=intel&filename=" + vid.filename + "&stt=" + vid.startTime;
+      console.log(vid.url);
+
+    
+  } 
+
+};
+
+Committee.scrapeVids = function () {
+  var queue;
+  for (var hear of this.hearings) {
+    for (var vid of hear.videos) {
+      if (video.status !== "complete") {
+        queue.push(video);
+      }
+    }
+
   }
 
 };
+
+
+Video.fetch = function () {
+  var filename, state, data, type;
+  filename = this.url.split('/').pop();
+  if (this.type === "RealMedia") {
+    type = "rm";
+  } else if (this.type === "HDS") {
+    type = "hds";
+    var hdsdata = getHDSdata();
+  }
+
+  data = "url=" + this.url + "&type=rm" + "&fn=" + filename;
+  var webpage = require('webpage').create();
+  webpage.open('http://localhost/hearingHandler/video.php', 'post', data, function () { // executed after loading
+    if (webpage.content.contains('Nope')) {
+      //webpage.open('http://aphid.org/sad.html');
+    }
+    busy = false;
+  });
+  console.log(state);
+  console.log("gotReal");
+  return (true);
+}
