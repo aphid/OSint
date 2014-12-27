@@ -269,23 +269,22 @@ Hearing.prototype.sanitizeMedia = function () {
       }
       console.log(vid.startTime);
     }
-    if (vid.filename === undefined && vid.url.contains('filename')) {
+    if (vid.filename === undefined && vid.url.contains('filename') && !vid.url.contains('.r')) {
       var split = vid.url.split("&filename=");
       split = split[1].split('&');
       split = split[0];
-      console.log("AAAAAARGH >>>> " + split); 
       vid.filename = split;
       
     }  else if (vid.filename === undefined && vid.url.contains('fn')) {
       var split = vid.url.split("?fn=");
       split = split[1].split('&');
       split = split[0];
-      console.log("AAAAAARGH >>>> " + split); 
       vid.filename = split;      
-    } 
+    }
+    if (vid.url.contains('fplayers') || vid.url.contains('isvp')){
       vid.url = "http://www.senate.gov/isvp/?type=live&comm=intel&filename=" + vid.filename + "&stt=" + vid.startTime;
       console.log(vid.url);
-
+    }
     
   } 
 
