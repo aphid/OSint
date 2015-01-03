@@ -243,17 +243,25 @@ Hearing.prototype.sanitizeMedia = function () {
     rmurl;
   //Only two hearings have linked video, one of those doesn't work.  Instead replace these procedurally
   if (hear.session < 111) {
-    //we need to construct a url that looks like this: http://www.senate.gov/legacymedia/www/intel080107.rm where intel is (committee-short), then monthdayyear
-    console.log("it was okay");
     rmurl = "http://www.senate.gov/legacymedia/www/intel" + moment(hear.date).format('MMDDYY') + ".rm";
-    console.log("NEW URL!!!!! " + rmurl);
-    hear.addVideo({
-      url: rmurl,
-      type: "RealMedia",
-      description: "",
-      note: "test"
-    });
-
+    //we need to construct a url that looks like this: http://www.senate.gov/legacymedia/www/intel080107.rm where intel is (committee-short), then monthdayyear
+    for (vid of hear.videos){
+    console.log("it was okay");
+    vid.oldUrl = rmurl;
+    vid.url = "http://www.senate.gov/legacymedia/www/intel" + moment(hear.date).format('MMDDYY') + ".rm";
+    vid.filename = moment(hear.date).format('MMDDYY');
+      
+    }
+    if (!hear.videos.length){
+      
+      hear.addVideo({
+        url: rmurl,
+        type: "rm",
+        description: "",
+        filename: moment(hear.date).format('MMDDYY'),
+        note: "guessing"
+      });
+    }
   } //end if
 
 
@@ -285,6 +293,8 @@ Hearing.prototype.sanitizeMedia = function () {
       vid.url = "http://www.senate.gov/isvp/?type=live&comm=intel&filename=" + vid.filename;
       if (!vid.startTime.contains('alid')){
         vid.url = vid.url + "&stt=" + vid.startTime;
+      } else {
+        delete vid.startTime; 
       }
       console.log(vid.url);
     }

@@ -106,6 +106,9 @@ var Video = function (options) {
   this.filename = options.filename;
   this.witnessRef = options.witnessRef;
   this.metadata = {};
+  if (options.note){
+    this.note = options.note;
+  }
   if (this.url.contains("isvp")) {
     this.type = "hds";
   } else if (this.url.contains("fplayer")) {
