@@ -282,7 +282,10 @@ Hearing.prototype.sanitizeMedia = function () {
       vid.filename = split;      
     }
     if (vid.url.contains('fplayers') || vid.url.contains('isvp')){
-      vid.url = "http://www.senate.gov/isvp/?type=live&comm=intel&filename=" + vid.filename + "&stt=" + vid.startTime;
+      vid.url = "http://www.senate.gov/isvp/?type=live&comm=intel&filename=" + vid.filename;
+      if (!vid.startTime.contains('alid')){
+        vid.url = vid.url + "&stt=" + vid.startTime;
+      }
       console.log(vid.url);
     }
     
@@ -304,16 +307,17 @@ Committee.scrapeVids = function () {
 };
 
 
-Video.fetch = function () {
+Video.prototype.fetch = function () {
+  console.log("fetchin'!");
   var filename, state, data, type;
   filename = this.url.split('/').pop();
-  if (this.type === "RealMedia") {
-    type = "rm";
-  } else if (this.type === "HDS") {
-    type = "hds";
-    var hdsdata = getHDSdata();
-  }
-
+  if (this.type === "hds") {
+    console.log("DING DING DING");
+    var hdsdata = this.getHDSdata().then(function(result){
+      
+    });
+  } else if (this.type === "rm") {
+  /*  
   data = "url=" + this.url + "&type=rm" + "&fn=" + filename;
   var webpage = require('webpage').create();
   webpage.open('http://localhost/hearingHandler/video.php', 'post', data, function () { // executed after loading
@@ -321,7 +325,8 @@ Video.fetch = function () {
       //webpage.open('http://aphid.org/sad.html');
     }
     busy = false;
-  });
+*/
+  }
   console.log(state);
   console.log("gotReal");
   return (true);

@@ -106,7 +106,7 @@ var Video = function (options) {
   this.filename = options.filename;
   this.witnessRef = options.witnessRef;
   this.metadata = {};
-  if (this.url.contains("ivsp")) {
+  if (this.url.contains("isvp")) {
     this.type = "hds";
   } else if (this.url.contains("fplayer")) {
     this.type = "flv";
@@ -161,7 +161,7 @@ Hearing.prototype.addVideo = function (options) {
     }
   }
   var video = new Video(options);
-  console.log(JSON.stringify(video));
+  //console.log(JSON.stringify(video));
   this.videos.push(video);
 };
 
@@ -338,22 +338,33 @@ Committee.prototype.report = function () {
   console.log(videos + " videos, " + links + " links, " + witnesses + " witnesses, and " + pdfs + " pdfs");
 };
 
-Video.getHDSdata = function () {
+Video.prototype.getHDSdata = function () {
   var vid = this;
-  var url;
-  var page = require('webpage').create();
-  page.onResourceReceived = function(response) {
-    if (response.status === 200 && (response.url.contains('manifest') || response.url.contains('flv'))  && (!response.url.contains('gif'))){
-      console.log(">>>>>>>>>>  " + response.status);
-      if (response.url.contains('flv'));
-      url = response.url;
-      console.log(url);
-      page.close();
-      
-    }
-};
-
-  page.open(url, function () { // executed after loading
-
+  var url = this.url;
+  console.log(url);
+  var promise = new Promise(function(resolve, reject){
+    
+    var page = require('webpage').create();
+    
+   page.open(url, function () { // executed after loading
+     console.log("<<<<<<");
+    });
+    page.onResourceReceived = function(response) {
+      if (response.url.contains('flv')){
+        vid.type = "flv";    
+        page.close();
+        console.log('we done');
+        promise.reject('flv');
+      };
+      if (response.status === 200 && (response.url.contains('manifest'))  && (!response.url.contains('gif'))){
+        console.log(">>>>>>>>>>  " + response.status);
+        url = response.url;
+        console.log(url);
+        page.close();
+        promise.resolve(url);
+      }
+    };
   });
+  
+  
 };
