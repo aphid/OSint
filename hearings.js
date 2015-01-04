@@ -61,6 +61,38 @@ Committee.prototype.addHearing = function (options) {
   return hearing;
 };
 
+Committee.prototype.fetchVids = function () {
+  console.log("ok, here we go!");
+  if (senateScraper.busy === false) {
+    console.log("selecting a video");
+    var vid = this.pickVid();
+    if (!vid) {
+      console.log("WE DONE FETCHIN!");
+      return true;
+    } else {
+      vid.fetch();
+      console.log("attempting to fetch " + vid.filename);
+      senateScraper.busy = true;
+      this.fetchVids();
+    }
+  } else {
+    console.log("busy");
+    slimer.wait(5000);
+    this.fetchVids();
+  }
+};
+
+Committee.prototype.pickVid = function () {
+  for (var hear of this.hearings) {
+    for (var vid of hear.videos) {
+      if (!vid.status && hear.dateReadable.contains("2014")) {
+        return vid;
+      }
+    }
+  }
+  return false;
+};
+
 Committee.prototype.fileify = function () {
   var comm = this;
   console.log("Starting file save...");
@@ -106,18 +138,17 @@ var Video = function (options) {
   this.filename = options.filename;
   this.witnessRef = options.witnessRef;
   this.metadata = {};
-  if (options.note){
+  if (options.note) {
     this.note = options.note;
   }
   if (this.url.contains("isvp")) {
     this.type = "hds";
   } else if (this.url.contains("fplayer")) {
     this.type = "flv";
-  }
-  else if (this.url.contains(".ram")) {
+  } else if (this.url.contains(".ram")) {
     this.type = "rm";
   }
-  
+
 };
 
 var Pdf = function (options) {
@@ -297,9 +328,52 @@ Committee.prototype.processMedia = function () {
 
 };
 
+Video.prototype.fetch = function () {
+  var vid = this;
+  console.log("fetchin'!");
+  if (this.type === "hds") {
+    console.log("it's a HDS!");
+    var hdsdata = this.getHDSdata().then(function (result) {
+      console.log("result: " + JSON.stringify(result));
+    }, function (reject) {
+      console.log("reject: " + reject);
+      vid.type = "flv";
+      vid.status = -1;
+      senateScraper.busy = false;
+      webpage.close();
+    });
+    /*
+      if (result === 'flv'){
+        console.log("caught the rejection");
+       
+      } else {
+        console.log("OK TO GO");
+      }
+    }, function(reject){
+      console.log("wahhhh");
+     */
+  } else if (this.type === "rm") {
+    console.log("it's a RM!");
+    var data = "type=rm" + "&fn=" + this.filename;
 
+    var webpage = require('webpage').create();
+    console.log(senateScraper.getVidUrl);
+    webpage.open(senateScraper.getVidUrl, 'post', data, function () { // executed after loading
+      console.log(webpage.content);
+      if (webpage.content.contains('ope')) {
+        console.log("something went wrong remote");
+        //webpage.open('http://aphid.org/sad.html');
+      } else if (webpage.content.contains('success')) {
+        console.log("ok woo");
+        vid.status = 1;
+        senateScraper.busy = false;
+        webpage.close();
+      }
 
-
+    });
+  }
+};
+/*
 Video.prototype.requestTarget = function (data, comm, scrapePage) {
   scrapePage.close();
 
@@ -323,7 +397,7 @@ Video.prototype.requestTarget = function (data, comm, scrapePage) {
     console.log(comm.tasks);
     comm.tasks--;
   });
-};
+}; */
 
 Committee.prototype.report = function () {
   console.log("Countin' videos");
@@ -345,29 +419,36 @@ Video.prototype.getHDSdata = function () {
   var vid = this;
   var url = this.url;
   console.log(url);
-  var promise = new Promise(function(resolve, reject){
-    
+  return new Promise(function (resolve, reject) {
+    var data = {};
     var page = require('webpage').create();
-    
-   page.open(url, function () { // executed after loading
-     console.log("<<<<<<");
+
+    page.open(url, function () { // executed after loading
+      console.log("<<<<<<");
     });
-    page.onResourceReceived = function(response) {
-      if (response.url.contains('flv')){
-        vid.type = "flv";    
+    page.onResourceReceived = function (response) {
+      if (response.url.contains('flv')) {
+        vid.type = "flv";
         page.close();
-        console.log('we done');
-        promise.reject('flv');
+        console.log('Not HDS, FLV');
+        reject('flv');
       };
-      if (response.status === 200 && (response.url.contains('manifest'))  && (!response.url.contains('gif'))){
+      if (response.status === 200 && (response.url.contains('manifest')) && (!response.url.contains('gif'))) {
         console.log(">>>>>>>>>>  " + response.status);
         url = response.url;
         console.log(url);
+        data.manifest = url;
+      }
+      if (response.status === 200 && response.url.contains('Frag')) {
+        data.auth = response.url.split('?').pop();
+
+      }
+      if (data.auth && data.manifest) {
         page.close();
-        promise.resolve(url);
+        resolve(data);
       }
     };
   });
-  
-  
+
+
 };
