@@ -10,7 +10,7 @@ console.log('Starting task on ' + moment().format('MMMM Do YYYY, h:mm:ss a'));
 var senateScraper = {
   dataPath: '/var/www/html/hearings/data/',
   hearingPath: '/var/www/html/hearings',
-  getVidUrl: 'http://metaviddemo01.ucsc.edu/asdf/getvid.php',
+  getVidUrl: 'http://illegible.us/video.php',
   pdfurl: 'http://localhost/hearingHandler/pdf.php'
 
 };

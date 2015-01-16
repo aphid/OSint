@@ -166,6 +166,14 @@ Hearing.prototype.grokParsed = function (parsedHearing) {
   }
   for (var video of videos) {
     console.log(JSON.stringify(video, undefined, 2));
+    
+    if (video.url.contains("isvp")) {
+      video.type = "hds";
+    } else if (video.url.contains("fplayer")) {
+      video.type = "flv";
+    } else if (video.url.contains(".ram")) {
+      video.type = "rm";
+    }
     hearing.addVideo(video);
   }
 };
@@ -258,7 +266,7 @@ Hearing.prototype.sanitizeMedia = function () {
         url: rmurl,
         type: "rm",
         description: "",
-        filename: moment(hear.date).format('MMDDYY'),
+        filename: "intel" + moment(hear.date).format('MMDDYY'),
         note: "guessing"
       });
     }

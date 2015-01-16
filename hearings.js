@@ -22,7 +22,7 @@ var Hearing = function (options) {
   this.links = [];
   this.pdfs = [];
   this.videos = [];
-  this.path = senateScraper.hearingPath + "/" + this.session + "/" + this.shortdate;
+  this.path = senateScraper.hearingPath + "/" + this.shortdate;
   senateScraper.checkPath(this);
 };
 
@@ -35,8 +35,6 @@ senateScraper.makeDir = function (path) {
 };
 
 senateScraper.checkPath = function (hearing) {
-  var sesDir = this.hearingPath + "/" + hearing.session + "/";
-  this.makeDir(sesDir);
   this.makeDir(hearing.path);
 
 
@@ -62,17 +60,19 @@ Committee.prototype.addHearing = function (options) {
 };
 
 Committee.prototype.fetchVids = function () {
-  console.log("ok, here we go!");
+  console.log(">>>");
   if (senateScraper.busy === false) {
     console.log("selecting a video");
     var vid = this.pickVid();
     if (!vid) {
       console.log("WE DONE FETCHIN!");
-      return true;
+      return new Promise(resolve);
     } else {
+      senateScraper.busy = true;
+
+      this.fileify();
       vid.fetch();
       console.log("attempting to fetch " + vid.filename);
-      senateScraper.busy = true;
       this.fetchVids();
     }
   } else {
@@ -82,10 +82,71 @@ Committee.prototype.fetchVids = function () {
   }
 };
 
+Committee.prototype.fetchPdfs = function () {
+  var comm = this;
+  console.log(">>> ");
+  if (senateScraper.busy === false) {
+    var hear = this.pickHearing();
+    if (!hear) {
+      console.log("Guess we're done");
+      return new Promise(resolve);
+    }
+    senateScraper.busy = true;
+    var count = 0;
+    for (var pdf of hear.pdfs) {
+      count++;
+      console.log(count + " of " + hear.pdfs.length);
+      console.log("Trying " + pdf.filename);
+      slimer.wait(3000);
+      var data = "short=" + escape(hear.shortdate) + "&filename=" + escape(pdf.filename) + "&url=" + escape(pdf.url);
+      var webpage = require('webpage').create();
+      console.log("Opening " + senateScraper.pdfurl);
+      webpage.open(senateScraper.pdfurl, 'post', data, function () {
+        var json = webpage.evaluate(function () {
+          return document.querySelector("body").textContent;
+        });
+   
+        var metadata = JSON.parse(json)[0];
+          webpage.close();
+   
+        delete metadata['SourceFile'];
+        delete metadata['Directory'];
+        pdf.metadata = metadata;
+        console.log(JSON.stringify(metadata, undefined, 2));
+        pdf.status = 1;
+        if (count == hear.pdfs.length ) {
+          console.log("all of them");
+          comm.fileify();
+          senateScraper.busy = false;
+   
+          comm.fetchPdfs();
+        }
+
+      });
+    } // done with pdfs
+  } else {
+    console.log("busy");
+    slimer.wait(5000);
+    this.fetchPdfs();
+  }
+};
+
+Committee.prototype.pickHearing = function () {
+  for (var hear of this.hearings) {
+    for (var pdf of hear.pdfs) {
+      if ((pdf.status === undefined || pdf.status === 0) && senateScraper.checked.indexOf(hear.dateReadable) < 0) {
+        senateScraper.checked.push(hear.dateReadable);
+        return hear;
+      }
+    }
+  }
+};
+
 Committee.prototype.pickVid = function () {
   for (var hear of this.hearings) {
     for (var vid of hear.videos) {
-      if (!vid.status && hear.dateReadable.contains("2014")) {
+      if (!video.status) {
+        senateScraper.checked.push(vid.filename);
         return vid;
       }
     }
@@ -137,16 +198,16 @@ var Video = function (options) {
   this.startTime = options.startTime || "0";
   this.filename = options.filename;
   this.witnessRef = options.witnessRef;
-  this.metadata = {};
+  if (options.metadata) {
+    this.metadata = options.metadata;
+  } else {
+    this.metadata = {};
+  }
+  if (options.status) {
+    this.status = options.status;
+  }
   if (options.note) {
     this.note = options.note;
-  }
-  if (this.url.contains("isvp")) {
-    this.type = "hds";
-  } else if (this.url.contains("fplayer")) {
-    this.type = "flv";
-  } else if (this.url.contains(".ram")) {
-    this.type = "rm";
   }
 
 };
@@ -156,6 +217,9 @@ var Pdf = function (options) {
   this.description = options.description;
   this.filename = options.filename || this.url.split('/').pop().replace(".pdf", "");
   this.witnessRef = options.witnessRef;
+  if (options.metadata) {
+    this.metadata = options.metadata;
+  }
 };
 
 Hearing.prototype.getPdfs = function () {
@@ -335,6 +399,23 @@ Video.prototype.fetch = function () {
     console.log("it's a HDS!");
     var hdsdata = this.getHDSdata().then(function (result) {
       console.log("result: " + JSON.stringify(result));
+      var data = "type=hds&fn=" + escape(vid.filename) + "&auth=" + escape(result.auth) + "&manifest=" + escape(result.manifest);
+      var webpage = require('webpage').create();
+      console.log("Opening " + senateScraper.getVidUrl);
+      webpage.open(senateScraper.getVidUrl, 'post', data, function () { // executed after loading
+        var json = webpage.evaluate(function () {
+          return document.querySelector("pre").textContent;
+        });
+        var metadata = JSON.parse(json)[0];
+        delete metadata['SourceFile'];
+        delete metadata['Directory'];
+        vid.metadata = metadata;
+        console.log(JSON.stringify(metadata, undefined, 2));
+
+        vid.status = 1;
+        senateScraper.busy = false;
+        webpage.close();
+      });
     }, function (reject) {
       console.log("reject: " + reject);
       vid.type = "flv";
@@ -342,16 +423,7 @@ Video.prototype.fetch = function () {
       senateScraper.busy = false;
       webpage.close();
     });
-    /*
-      if (result === 'flv'){
-        console.log("caught the rejection");
-       
-      } else {
-        console.log("OK TO GO");
-      }
-    }, function(reject){
-      console.log("wahhhh");
-     */
+
   } else if (this.type === "rm") {
     console.log("it's a RM!");
     var data = "type=rm" + "&fn=" + this.filename;
@@ -359,45 +431,35 @@ Video.prototype.fetch = function () {
     var webpage = require('webpage').create();
     console.log(senateScraper.getVidUrl);
     webpage.open(senateScraper.getVidUrl, 'post', data, function () { // executed after loading
-      console.log(webpage.content);
       if (webpage.content.contains('ope')) {
         console.log("something went wrong remote");
+        vid.status = -1;
+        senateScraper.busy = false;
+        webpage.close();
         //webpage.open('http://aphid.org/sad.html');
-      } else if (webpage.content.contains('success')) {
+      } else {
         console.log("ok woo");
+        var json = webpage.evaluate(function () {
+          return document.querySelector("pre").textContent;
+        });
+        var metadata = JSON.parse(json)[0];
+        delete metadata['SourceFile'];
+        delete metadata['Directory'];
+        console.log(JSON.stringify(metadata, undefined, 2));
+
+        vid.metadata = metadata;
         vid.status = 1;
         senateScraper.busy = false;
         webpage.close();
       }
 
     });
+  } else if (this.type === "flv") {
+    console.log("Skipping FLV");
+    vid.status = -1;
+    senateScraper.busy = false;
   }
 };
-/*
-Video.prototype.requestTarget = function (data, comm, scrapePage) {
-  scrapePage.close();
-
-  console.log("Running HDS");
-  console.log("boop " + JSON.stringify(data));
-  var vidPage = require('webpage').create();
-  vidPage.onConsoleMessage = function (msg) {
-    console.log(msg);
-  };
-  fs.write(senateScraper.dataPath + "data.json", JSON.stringify(data, undefined, 2));
-
-  vidPage.onResourceReceived = function (response) {
-    console.log('Response (#' + response.id + ', stage "' + response.stage + '"): ' + JSON.stringify(response));
-  };
-  console.log("Opening with: " + data.manifest);
-  var postdata = "manifest=" + encodeURIComponent(data.manifest) + "&filename=" + encodeURIComponent(data.filename) + "&auth=" + encodeURIComponent(data.auth);
-
-  vidPage.open(senateScraper.getVidUrl, "post", postdata).then(function (status) {
-    console.log(status);
-    console.log(vidPage.plainText);
-    console.log(comm.tasks);
-    comm.tasks--;
-  });
-}; */
 
 Committee.prototype.report = function () {
   console.log("Countin' videos");

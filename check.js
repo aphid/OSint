@@ -33,17 +33,6 @@ console.log("Scraping Sessions!");
 
 intel.getDataFromJSON().then(function (result) {
   
-  //intel.fetchVids();
-  intel.fetchPdfs();
-  
-}).then(function(result){
-  //write JSON
-  //intel.fileify();
-  //intel.report();
-
-
-  //phantom.exit();
+  intel.report();
+  slimer.exit();
 });
-//intel.processWitnesses();
-//intel.scrapeHDS();
-//hearing.getPdfs();*/
