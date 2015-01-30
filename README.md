@@ -1,4 +1,4 @@
-hearing-things
+archiving an illegible legislature
 ==============
 
 Scraping and Analysis tools for U.S. Senate (and eventually House) Committee hearing videos and associated metadata
