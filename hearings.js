@@ -109,12 +109,12 @@ Committee.prototype.fetchPdfs = function () {
         var metadata = JSON.parse(json)[0];
           webpage.close();
    
-        delete metadata['SourceFile'];
-        delete metadata['Directory'];
+        delete metadata.SourceFile;
+        delete metadata.Directory;
         pdf.metadata = metadata;
         console.log(JSON.stringify(metadata, undefined, 2));
         pdf.status = 1;
-        if (count == hear.pdfs.length ) {
+        if (count === hear.pdfs.length ) {
           console.log("all of them");
           comm.fileify();
           senateScraper.busy = false;
@@ -122,7 +122,7 @@ Committee.prototype.fetchPdfs = function () {
           comm.fetchPdfs();
         }
 
-      });
+      }); //webpage open
     } // done with pdfs
   } else {
     console.log("busy");
@@ -145,7 +145,7 @@ Committee.prototype.pickHearing = function () {
 Committee.prototype.pickVid = function () {
   for (var hear of this.hearings) {
     for (var vid of hear.videos) {
-      if (!video.status) {
+      if (!vid.status) {
         senateScraper.checked.push(vid.filename);
         return vid;
       }
@@ -224,21 +224,42 @@ var Pdf = function (options) {
 
 Hearing.prototype.getPdfs = function () {
   var hear = this;
-  for (var pdf of this.pdfs) {
-    var pdfpage = require('webpage').create();
-    var data = "date=" + this.shortdate + "&session=" + hear.session + "&pdf=" + pdf.filename;
-    console.log(senateScraper.pdfurl + "   " + JSON.stringify(data));
-
-    pdfpage.open(senateScraper.pdfurl, "post", data).then(function (status) {
-
-
-    });
-  }
+  
+  return Promise.all(this.pdfs.map(function (a) {
+    return a.scrape(hear.shortdate, hear.session);
+  }));
+ 
 };
 
+Pdf.prototype.scrape = function(shortdate, session){
+  var that = this;
+  if (senateScraper.currentSocks < senateScraper.maxSocks){
+    return new Promise(function(resolve,reject){
+
+      var pdfpage = require('webpage').create();
+      pdfpage.onConsoleMessage = function (message, line, file) {
+        console.log("pdfscraper: " + file + " @" + line + ": " + message)
+      };
+      var data = "date=" + this.shortdate + "&session=" + session + "&pdf=" + that.filename;
+      pdfpage.open(senateScraper.pdfurl, "post", data).then(function (status) {
+        //TODO test for success
+        resolve();
+      });
+    });
+  } else {
+    
+   window.setTimeout(function(){
+     that.scrape(shortdate, session);
+     
+   }, 5000);
+  }
+  
+};
 
 Pdf.prototype.fetchMetadata = function () {
   //exec exiftool return json 
+  //no, the php needs to do this
+
 };
 
 
@@ -303,6 +324,7 @@ Committee.prototype.scrapeSessions = function () {
 
 Committee.prototype.processHearings = function () {
   return Promise.all(this.hearings.map(function (a) {
+    console.log(">>> " + a.shortdate);
     return a.process();
   }));
 };
@@ -461,6 +483,11 @@ Video.prototype.fetch = function () {
   }
 };
 
+Video.prototype.exists = function(){
+  
+  
+};
+
 Committee.prototype.report = function () {
   console.log("Countin' videos");
   console.log(this.hearings.length + " hearings");
@@ -513,4 +540,15 @@ Video.prototype.getHDSdata = function () {
   });
 
 
+};
+
+Committee.sortHearings = function(){
+  hearings.sort(function(a,b) {
+  if (a.shortdate < b.shortdate)
+     return -1;
+  if (a.shortdate > b.shortdate)
+    return 1;
+  return 0;
+});
+  
 };

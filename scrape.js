@@ -11,8 +11,9 @@ var senateScraper = {
   dataPath: '/var/www/html/hearings/data/',
   hearingPath: '/var/www/html/hearings',
   getVidUrl: 'http://illegible.us/video.php',
-  pdfurl: 'http://localhost/hearingHandler/pdf.php'
-
+  pdfurl: 'http://localhost/hearingHandler/pdf.php',
+  maxSocks: 5, 
+  currentSocks: 0
 };
 
 phantom.injectJs('hearings.js');
@@ -23,7 +24,7 @@ var intel = new Committee({
   committee: "Intelligence",
   chamber: "senate",
   url: "http://www.intelligence.senate.gov",
-  sessions: [110, 111, 112, 113]
+  sessions: [106, 107, 108, 109, 110, 111, 112, 113]
 });
 
 console.log("Scraping Sessions!");
@@ -71,6 +72,3 @@ intel.scrapeSessions().then(function (result) {
 
   phantom.exit();
 });
-//intel.processWitnesses();
-//intel.scrapeHDS();
-//hearing.getPdfs();*/

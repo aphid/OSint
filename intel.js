@@ -43,7 +43,7 @@ Committee.prototype.scrapeSession = function (session) {
               data.timestamp = mom.toDate();
               hears.push(data);
             } else {
-              //console.log("not a hearing: " + hearingTitle);
+              console.log("not a hearing: " + hearingTitle);
             } // end else
           } //end for
           //console.log("Finished.\n" + JSON.stringify(hears));
@@ -73,52 +73,64 @@ Committee.prototype.scrapeSession = function (session) {
 };
 
 Hearing.prototype.process = function () {
-  //fix this shit to work with grok
-  console.log(".");
-  var hearing = this;
+  if (senateScraper.currentSocks < senateScraper.maxSocks) {
+    console.log(senateScraper.currentSocks);
+    senateScraper.currentSocks = senateScraper.currentSocks + 1;;
+    //fix this shit to work with grok
+    console.log(".");
+    var hearing = this;
 
-  if (!hearing.url.contains('http://')) {
-    hearing.url = hearing.baseUrl + hearing.url;
+    if (!hearing.url.contains('http://')) {
+      hearing.url = hearing.baseUrl + hearing.url;
+    }
+    //console.log("Loading " + hearing.url);
+    var hearingPage = require('webpage').create();
+    hearingPage.open(hearing.url).then(function (status) {
+      for (var inject of injects) {
+        hearingPage.injectJs(inject);
+      }
+      if (status === "success") {
+        var parsedHearing = hearingPage.evaluate(function () {
+          var hear = [];
+
+          for (var td of document.querySelectorAll('.hearingTxt')) {
+            if (td.textContent === "Location") {
+              hear.location = td.nextElementSibling.textContent.trim();
+            }
+          }
+
+          for (var a of document.querySelectorAll('a')) {
+            var data = filterMedia(a);
+            if (data.type !== "filterOut") {
+              hear.push(data);
+            }
+          } //end a
+          hear.description = document.querySelector('td.hearingTxtb').textContent;
+          return hear;
+        }); // end eval
+        hearingPage.close();
+        //console.log("eval over");
+        hearing.room = parsedHearing.location;
+        hearing.description = parsedHearing.description;
+
+        //this next part feels liek something from /r/shittyprogramming, oh well
+        hearing.grokParsed(parsedHearing);
+        delete hearing.panel;
+
+        return new Promise(function (resolve) {
+          console.log("..");
+          senateScraper.currentSocks = senateScraper.currentSocks - 1;
+          resolve();
+        });
+      }
+    });
+
+
+  } else {
+    console.log("..." + senateScraper.currentSocks);
+    slimer.wait(250);
+    this.process();
   }
-  //console.log("Loading " + hearing.url);
-  var hearingPage = require('webpage').create();
-  hearingPage.open(hearing.url).then(function (status) {
-    for (var inject of injects) {
-      hearingPage.injectJs(inject);
-    }
-    if (status === "success") {
-      var parsedHearing = hearingPage.evaluate(function () {
-        var hear = [];
-
-        for (var td of document.querySelectorAll('.hearingTxt')) {
-          if (td.textContent === "Location") {
-            hear.location = td.nextElementSibling.textContent.trim();
-          }
-        }
-
-        for (var a of document.querySelectorAll('a')) {
-          var data = filterMedia(a);
-          if (data.type !== "filterOut") {
-            hear.push(data);
-          }
-        } //end a
-        hear.description = document.querySelector('td.hearingTxtb').textContent;
-        return hear;
-      }); // end eval
-      hearingPage.close();
-      //console.log("eval over");
-      hearing.room = parsedHearing.location;
-      hearing.description = parsedHearing.description;
-
-      //this next part feels liek something from /r/shittyprogramming, oh well
-      hearing.grokParsed(parsedHearing);
-      delete hearing.panel;
-    }
-  });
-
-  return new Promise(function (resolve) {
-    resolve();
-  });
 };
 
 Hearing.prototype.grokParsed = function (parsedHearing) {
@@ -127,7 +139,7 @@ Hearing.prototype.grokParsed = function (parsedHearing) {
     videos = [],
     witnesses = [],
     pdfs = [];
-  for (data of parsedHearing) {
+  for (var data of parsedHearing) {
     if (data) {
       if (!data.url.contains("http")) {
         data.url = (hearing.baseUrl + "/" + data.url).replace(".gov//", ".gov/");
@@ -166,7 +178,7 @@ Hearing.prototype.grokParsed = function (parsedHearing) {
   }
   for (var video of videos) {
     console.log(JSON.stringify(video, undefined, 2));
-    
+
     if (video.url.contains("isvp")) {
       video.type = "hds";
     } else if (video.url.contains("fplayer")) {
@@ -179,41 +191,54 @@ Hearing.prototype.grokParsed = function (parsedHearing) {
 };
 
 Link.prototype.update = function (hearing) {
+
   var link = this,
     parsedLink;
-  var linkPage = require('webpage').create();
-  linkPage.onConsoleMessage = function (message, line, file) {
-    console.log(file + " @" + line + ": " + message)
-  };
-  linkPage.open(this.url).then(function (status) {
-    for (var inject of injects) {
-      linkPage.injectJs(inject);
-    }
-    if (status === "success") {
-      parsedLink = linkPage.evaluate(function () {
-        var hear = [];
-        console.log("testing " + document.querySelectorAll('a').length + " links");
-        for (var a of document.querySelectorAll('a')) {
-          var data = filterWitnesses(a);
-          if (data) {
-            hear.push(data);
-          }
-        } //end for
-        return hear;
-      }); //end eval
-      linkPage.close();
-      if (parsedLink) {
-        console.log(JSON.stringify(parsedLink));
-        hearing.grokParsed(parsedLink);
+  if (senateScraper.currentSocks < senateScraper.maxSocks) {
+    senateScraper.currentSocks = senateScraper.currentSocks + 1;
+    var linkPage = require('webpage').create();
+    linkPage.onConsoleMessage = function (message, line, file) {
+      console.log(file + " @" + line + ": " + message)
+    };
+    linkPage.open(this.url).then(function (status) {
+      for (var inject of injects) {
+        linkPage.injectJs(inject);
+      }
+      if (status === "success") {
+        parsedLink = linkPage.evaluate(function () {
+          var hear = [];
+          console.log("testing " + document.querySelectorAll('a').length + " links");
+          for (var a of document.querySelectorAll('a')) {
+            var data = filterWitnesses(a);
+            if (data) {
+              hear.push(data);
+            }
+          } //end for
+          return hear;
+        }); //end eval
+        linkPage.close();
+        if (parsedLink) {
+
+          hearing.grokParsed(parsedLink);
+
+        }
         return new Promise(function (resolve) {
+          senateScraper.currentSocks = senateScraper.currentSocks - 1;
           resolve();
         });
-      }
-    } //end success
-  }); //end open
+      } //end success
+    }); //end open
+  } else {
+    console.log("l...");
+    slimer.wait(250);
+    link.update(hearing);
+  }
 };
+
 Witness.prototype.update = function (hearing) {
   var wit = this;
+  if (senateScraper.currentSocks < senateScraper.maxSocks) {
+      senateScraper.currentSocks = senateScraper.currentSocks + 1;
   var witnessPage = require('webpage').create();
   witnessPage.onConsoleMessage = function (message, line, file) {
     console.log(file + " @" + line + ": " + message)
@@ -238,11 +263,17 @@ Witness.prototype.update = function (hearing) {
       if (parsedWitness) {
         hearing.grokParsed(parsedWitness);
         return new Promise(function (resolve) {
+    senateScraper.currentSocks = senateScraper.currentSocks - 1;
           resolve();
         });
       }
     }
   }); //end open
+  } else {
+   slimer.wait(250);
+   console.log("...w");
+   wit.update(hearing);
+  }
 };
 
 
@@ -253,15 +284,15 @@ Hearing.prototype.sanitizeMedia = function () {
   if (hear.session < 111) {
     rmurl = "http://www.senate.gov/legacymedia/www/intel" + moment(hear.date).format('MMDDYY') + ".rm";
     //we need to construct a url that looks like this: http://www.senate.gov/legacymedia/www/intel080107.rm where intel is (committee-short), then monthdayyear
-    for (vid of hear.videos){
-    console.log("it was okay");
-    vid.oldUrl = rmurl;
-    vid.url = "http://www.senate.gov/legacymedia/www/intel" + moment(hear.date).format('MMDDYY') + ".rm";
-    vid.filename = "intel" + moment(hear.date).format('MMDDYY');
-      
+    for (vid of hear.videos) {
+      console.log("it was okay");
+      vid.oldUrl = rmurl;
+      vid.url = "http://www.senate.gov/legacymedia/www/intel" + moment(hear.date).format('MMDDYY') + ".rm";
+      vid.filename = "intel" + moment(hear.date).format('MMDDYY');
+
     }
-    if (!hear.videos.length){
-      
+    if (!hear.videos.length) {
+
       hear.addVideo({
         url: rmurl,
         type: "rm",
@@ -290,24 +321,24 @@ Hearing.prototype.sanitizeMedia = function () {
       split = split[1].split('&');
       split = split[0];
       vid.filename = split;
-      
-    }  else if (vid.filename === undefined && vid.url.contains('fn')) {
+
+    } else if (vid.filename === undefined && vid.url.contains('fn')) {
       var split = vid.url.split("?fn=");
       split = split[1].split('&');
       split = split[0];
-      vid.filename = split;      
+      vid.filename = split;
     }
-    if (vid.url.contains('fplayers') || vid.url.contains('isvp')){
+    if (vid.url.contains('fplayers') || vid.url.contains('isvp')) {
       vid.url = "http://www.senate.gov/isvp/?type=live&comm=intel&filename=" + vid.filename;
-      if (!vid.startTime.contains('alid')){
+      if (!vid.startTime.contains('alid')) {
         vid.url = vid.url + "&stt=" + vid.startTime;
       } else {
-        delete vid.startTime; 
+        delete vid.startTime;
       }
       console.log(vid.url);
     }
-    
-  } 
+
+  }
 
 };
 
@@ -323,5 +354,3 @@ Committee.scrapeVids = function () {
   }
 
 };
-
-
