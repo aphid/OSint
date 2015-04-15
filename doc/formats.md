@@ -22,4 +22,8 @@ see trac.mplayer...
 1) get .ram file, it's tiny and contains url to actual .rm file
 2) download .rm file.
 3) extract metadata (exiftool) and retranscode with mencoder
-*/
+
+##pdf
+
+These are straightforward.  Metadata is pulled from the file.  
+TODO: pdf2txt, ocr when needed.
