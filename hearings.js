@@ -224,7 +224,7 @@ var Pdf = function (options) {
 
 Hearing.prototype.getPdfs = function () {
   var hear = this;
-  
+  console.log("getting pdfs");
   return Promise.all(this.pdfs.map(function (a) {
     return a.scrape(hear.shortdate, hear.session);
   }));
@@ -234,24 +234,29 @@ Hearing.prototype.getPdfs = function () {
 Pdf.prototype.scrape = function(shortdate, session){
   var that = this;
   if (senateScraper.currentSocks < senateScraper.maxSocks){
+    
+    senateScraper.currentSocks = senateScraper.currentSocks + 1;
     return new Promise(function(resolve,reject){
 
       var pdfpage = require('webpage').create();
       pdfpage.onConsoleMessage = function (message, line, file) {
         console.log("pdfscraper: " + file + " @" + line + ": " + message)
       };
-      var data = "date=" + this.shortdate + "&session=" + session + "&pdf=" + that.filename;
+      var data = "date=" + shortdate + "&session=" + session + "&pdf=" + that.filename + "&committee=" + "intel" + "&url=" + encodeURI(that.url);
+      console.log(data);
       pdfpage.open(senateScraper.pdfurl, "post", data).then(function (status) {
-        //TODO test for success
+        console.log(pdfpage.content);
+        pdfpage.close();
+        senateScraper.currentSocks = senateScraper.currentSocks - 1;
         resolve();
       });
     });
   } else {
     
-   window.setTimeout(function(){
+   slimer.wait(100);
+     console.log("...");
      that.scrape(shortdate, session);
      
-   }, 5000);
   }
   
 };

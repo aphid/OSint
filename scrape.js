@@ -24,7 +24,8 @@ var intel = new Committee({
   committee: "Intelligence",
   chamber: "senate",
   url: "http://www.intelligence.senate.gov",
-  sessions: [106, 107, 108, 109, 110, 111, 112, 113]
+  sessions: [106, 107, 108, 109, 110, 111, 112, 113],
+  shortname: "intel"
 });
 
 console.log("Scraping Sessions!");
@@ -70,5 +71,7 @@ intel.scrapeSessions().then(function (result) {
   intel.report();
 
 
-  phantom.exit();
+  slimer.exit();
 });
+
+//
